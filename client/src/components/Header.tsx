@@ -1,4 +1,13 @@
+import backgroundImage from '@assets/Fondo3_1756077663774.jpg';
+
 export default function Header() {
+  const heroStyle = {
+    backgroundImage: `linear-gradient(rgba(30, 41, 59, 0.7), rgba(30, 41, 59, 0.7)), url(${backgroundImage})`,
+    backgroundSize: 'cover',
+    backgroundPosition: 'center',
+    backgroundRepeat: 'no-repeat'
+  };
+
   return (
     <header className="relative">
       {/* Navigation */}
@@ -43,7 +52,7 @@ export default function Header() {
       </nav>
       
       {/* Hero Section with Cloudy Sky Background */}
-      <div className="relative h-64 bg-cover bg-center bg-no-repeat hero-background">
+      <div className="relative h-64" style={heroStyle}
         <div className="absolute inset-0 bg-atm-dark bg-opacity-70"></div>
         <div className="absolute inset-0 flex items-center justify-center">
           <div className="text-center text-white">
