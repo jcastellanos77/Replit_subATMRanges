@@ -31,6 +31,7 @@ export default function Header() {
               </div>
               <button className="text-white hover:text-atm-green transition-colors duration-300 flex items-center space-x-2" data-testid="button-login">
                 <span className="text-sm">INICIAR SESIÓN</span>
+                <i className="fas fa-user"></i>
               </button>
             </div>
             
