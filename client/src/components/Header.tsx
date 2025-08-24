@@ -1,8 +1,6 @@
-import backgroundImage from '@assets/Fondo3_1756077663774.jpg';
-
 export default function Header() {
   const heroStyle = {
-    backgroundImage: `linear-gradient(rgba(30, 41, 59, 0.7), rgba(30, 41, 59, 0.7)), url(${backgroundImage})`,
+    backgroundImage: `linear-gradient(rgba(30, 41, 59, 0.7), rgba(30, 41, 59, 0.7)), url(/assets/Fondo3_1756077663774.jpg)`,
     backgroundSize: 'cover',
     backgroundPosition: 'center',
     backgroundRepeat: 'no-repeat'
