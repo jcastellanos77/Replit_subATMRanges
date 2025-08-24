@@ -9,7 +9,7 @@ export default function Header() {
   return (
     <header className="relative">
       {/* Navigation */}
-      <nav className="absolute top-0 left-0 right-0 z-20 bg-black bg-opacity-20 backdrop-blur-sm">
+      <nav className="absolute top-0 left-0 right-0 z-20 backdrop-blur-sm" style={{ backgroundColor: 'rgba(30, 41, 59, 0.7)' }}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center py-4">
             {/* Logo */}
