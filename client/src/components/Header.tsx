@@ -22,7 +22,6 @@ export default function Header() {
             {/* Desktop Navigation */}
             <div className="hidden md:flex items-center space-x-8">
               <a href="#" className="text-white hover:text-atm-green transition-colors duration-300" data-testid="nav-contact">CONTACTO</a>
-              <a href="#" className="text-white hover:text-atm-green transition-colors duration-300" data-testid="nav-about">NOSOTROS</a>
             </div>
             
             {/* Language and Login */}
