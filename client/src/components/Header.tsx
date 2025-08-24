@@ -21,10 +21,6 @@ export default function Header() {
             
             {/* Desktop Navigation */}
             <div className="hidden md:flex items-center space-x-8">
-              <a href="#" className="text-white hover:text-atm-green transition-colors duration-300" data-testid="nav-mission">MISIÓN</a>
-              <a href="#" className="text-white hover:text-atm-green transition-colors duration-300" data-testid="nav-objectives">OBJETIVOS</a>
-              <a href="#" className="text-white hover:text-atm-green transition-colors duration-300" data-testid="nav-values">VALORES</a>
-              <a href="#" className="text-white hover:text-atm-green transition-colors duration-300" data-testid="nav-join">ÚNETE</a>
               <a href="#" className="text-white hover:text-atm-green transition-colors duration-300" data-testid="nav-contact">CONTACTO</a>
               <a href="#" className="text-white hover:text-atm-green transition-colors duration-300" data-testid="nav-about">NOSOTROS</a>
             </div>
