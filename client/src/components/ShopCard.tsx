@@ -73,27 +73,27 @@ export default function ShopCard({ shop }: ShopCardProps) {
 
   return (
     <Card className="bg-white rounded-xl shadow-md hover:shadow-lg transition-shadow duration-300 overflow-hidden" data-testid={`card-shop-${shop.id}`}>
-      <CardContent className="p-6">
+      <CardContent className="p-4 lg:p-6">
         {/* Three-Column Layout: Logo | Info | Map */}
-        <div className="flex items-start space-x-6">
+        <div className="flex items-start space-x-3 lg:space-x-6">
           {/* Column A: Store Logo (Circular) */}
-          <div className="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center flex-shrink-0">
+          <div className="w-12 h-12 lg:w-16 lg:h-16 bg-gray-100 rounded-full flex items-center justify-center flex-shrink-0">
             {renderIcon()}
           </div>
           
           {/* Column B: Store Name & Description with Contact Details */}
-          <div className="flex-1 space-y-3">
+          <div className="flex-1 space-y-2 lg:space-y-3 min-w-0">
             {/* Store Name and Description */}
             <div>
-              <h3 className="text-lg font-semibold text-atm-dark mb-1" data-testid={`text-shop-name-${shop.id}`}>
+              <h3 className="text-base lg:text-lg font-semibold text-atm-dark mb-1 truncate" data-testid={`text-shop-name-${shop.id}`}>
                 {shop.name}
               </h3>
-              <p className="text-sm text-gray-600 mb-2" data-testid={`text-shop-description-${shop.id}`}>
+              <p className="text-sm text-gray-600 mb-2 line-clamp-2" data-testid={`text-shop-description-${shop.id}`}>
                 {shop.description}
               </p>
-              <div className="flex items-center text-sm text-gray-500 mb-2">
-                <MapPin className="w-3 h-3 mr-1" />
-                <span data-testid={`text-shop-location-${shop.id}`}>
+              <div className="flex items-center text-xs lg:text-sm text-gray-500 mb-2">
+                <MapPin className="w-3 h-3 mr-1 flex-shrink-0" />
+                <span className="truncate" data-testid={`text-shop-location-${shop.id}`}>
                   {shop.city}, {shop.state}
                 </span>
               </div>
@@ -119,23 +119,23 @@ export default function ShopCard({ shop }: ShopCardProps) {
             </div>
             
             {/* Contact Info */}
-            <div className="space-y-1 text-sm text-gray-600">
+            <div className="space-y-1 text-xs lg:text-sm text-gray-600">
               <div className="flex items-center">
-                <Phone className="w-3 h-3 text-atm-green mr-2" />
-                <span data-testid={`text-shop-phone-${shop.id}`}>{shop.phone}</span>
+                <Phone className="w-3 h-3 text-atm-green mr-2 flex-shrink-0" />
+                <span className="truncate" data-testid={`text-shop-phone-${shop.id}`}>{shop.phone}</span>
               </div>
               <div className="flex items-center">
-                <Mail className="w-3 h-3 text-atm-green mr-2" />
-                <span data-testid={`text-shop-email-${shop.id}`}>{shop.email}</span>
+                <Mail className="w-3 h-3 text-atm-green mr-2 flex-shrink-0" />
+                <span className="truncate" data-testid={`text-shop-email-${shop.id}`}>{shop.email}</span>
               </div>
               {shop.website && (
                 <div className="flex items-center">
-                  <Globe className="w-3 h-3 text-atm-green mr-2" />
+                  <Globe className="w-3 h-3 text-atm-green mr-2 flex-shrink-0" />
                   <a 
                     href={`https://${shop.website}`} 
                     target="_blank" 
                     rel="noopener noreferrer"
-                    className="hover:text-atm-green transition-colors"
+                    className="hover:text-atm-green transition-colors truncate"
                     data-testid={`link-shop-website-${shop.id}`}
                   >
                     {shop.website}
@@ -144,8 +144,8 @@ export default function ShopCard({ shop }: ShopCardProps) {
               )}
               {shop.hours && (
                 <div className="flex items-center">
-                  <Clock className="w-3 h-3 text-atm-green mr-2" />
-                  <span data-testid={`text-shop-hours-${shop.id}`}>{shop.hours}</span>
+                  <Clock className="w-3 h-3 text-atm-green mr-2 flex-shrink-0" />
+                  <span className="truncate" data-testid={`text-shop-hours-${shop.id}`}>{shop.hours}</span>
                 </div>
               )}
               {shop.rating && (
@@ -158,7 +158,7 @@ export default function ShopCard({ shop }: ShopCardProps) {
           
           {/* Column C: Static Map Image (Clickable) */}
           <div 
-            className="relative w-32 h-32 bg-gray-200 rounded-lg group cursor-pointer flex-shrink-0" 
+            className="relative w-20 h-20 lg:w-32 lg:h-32 bg-gray-200 rounded-lg group cursor-pointer flex-shrink-0" 
             onClick={handleMapClick}
             data-testid={`button-map-${shop.id}`}
           >
