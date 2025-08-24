@@ -51,7 +51,6 @@ export default function Header() {
       
       {/* Hero Section with Cloudy Sky Background */}
       <div className="relative h-64" style={heroStyle}>
-        <div className="absolute inset-0 bg-atm-dark bg-opacity-70"></div>
         <div className="absolute inset-0 flex items-center justify-center">
           <div className="text-center text-white">
             <h1 className="text-5xl md:text-6xl font-bold mb-2 tracking-tight">ATM</h1>
