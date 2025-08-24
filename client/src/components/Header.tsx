@@ -27,7 +27,6 @@ export default function Header() {
             {/* Language and Login */}
             <div className="flex items-center space-x-4">
               <div className="flex items-center space-x-2 text-white text-sm">
-                <i className="fas fa-globe"></i>
                 <span>ES</span>
               </div>
               <button className="text-white hover:text-atm-green transition-colors duration-300 flex items-center space-x-2" data-testid="button-login">
