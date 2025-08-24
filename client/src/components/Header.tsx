@@ -1,6 +1,6 @@
 export default function Header() {
   const heroStyle = {
-    backgroundImage: `linear-gradient(rgba(30, 41, 59, 0.7), rgba(30, 41, 59, 0.7)), url(/assets/Fondo3_1756077663774.jpg)`,
+    backgroundImage: `linear-gradient(rgba(30, 41, 59, 0.4), rgba(30, 41, 59, 0.4)), url(/assets/Fondo3_1756077663774.jpg)`,
     backgroundSize: 'cover',
     backgroundPosition: 'center',
     backgroundRepeat: 'no-repeat'
@@ -9,7 +9,7 @@ export default function Header() {
   return (
     <header className="relative">
       {/* Navigation */}
-      <nav className="absolute top-0 left-0 right-0 z-20 backdrop-blur-sm" style={{ backgroundColor: 'rgba(30, 41, 59, 0.7)' }}>
+      <nav className="absolute top-0 left-0 right-0 z-20 backdrop-blur-sm" style={{ backgroundColor: 'rgba(30, 41, 59, 0.4)' }}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center py-4">
             {/* Logo */}
