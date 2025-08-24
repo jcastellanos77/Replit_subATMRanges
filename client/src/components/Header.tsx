@@ -34,11 +34,6 @@ export default function Header() {
                 <i className="fas fa-user"></i>
               </button>
             </div>
-            
-            {/* Mobile Menu Button */}
-            <button className="md:hidden text-white" data-testid="button-mobile-menu">
-              <i className="fas fa-bars text-xl"></i>
-            </button>
           </div>
         </div>
       </nav>
