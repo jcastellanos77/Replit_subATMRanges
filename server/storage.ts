@@ -146,7 +146,16 @@ export class MemStorage implements IStorage {
 
     sampleShops.forEach(shop => {
       const id = randomUUID();
-      const fullShop: Shop = { ...shop, id };
+      const fullShop: Shop = { 
+        ...shop, 
+        id,
+        website: shop.website ?? null,
+        latitude: shop.latitude ?? null,
+        longitude: shop.longitude ?? null,
+        rating: shop.rating ?? null,
+        hours: shop.hours ?? null,
+        isVerified: shop.isVerified ?? null
+      };
       this.shops.set(id, fullShop);
     });
   }
@@ -217,7 +226,16 @@ export class MemStorage implements IStorage {
 
   async createShop(insertShop: InsertShop): Promise<Shop> {
     const id = randomUUID();
-    const shop: Shop = { ...insertShop, id };
+    const shop: Shop = { 
+      ...insertShop, 
+      id,
+      website: insertShop.website ?? null,
+      latitude: insertShop.latitude ?? null,
+      longitude: insertShop.longitude ?? null,
+      rating: insertShop.rating ?? null,
+      hours: insertShop.hours ?? null,
+      isVerified: insertShop.isVerified ?? null
+    };
     this.shops.set(id, shop);
     return shop;
   }
