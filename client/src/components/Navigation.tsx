@@ -65,15 +65,21 @@ export default function Navigation() {
                           <a
                             key={item.key}
                             href={
-                              item.key === 'menu.main' ? 'https://alianzatiradoresmx.org' :
-                              item.key === 'menu.training' ? 'https://sipde.alianzatiradoresmx.org' : 
+                              item.key === 'menu.main' || item.key === 'menu.training' ? '#' :
                               `#${item.key.split('.')[1]}`
                             }
                             className="block text-white hover:text-atm-green-2 hover:bg-gray-900 px-4 py-3 rounded-lg transition-colors duration-200"
                             data-testid={`link-${item.key.split('.')[1]}`}
-                            onClick={() => setSidebarOpen(false)}
-                            target={item.key === 'menu.main' || item.key === 'menu.training' ? '_blank' : undefined}
-                            rel={item.key === 'menu.main' || item.key === 'menu.training' ? 'noopener noreferrer' : undefined}
+                            onClick={(e) => {
+                              setSidebarOpen(false);
+                              if (item.key === 'menu.main') {
+                                e.preventDefault();
+                                window.location.href = 'https://alianzatiradoresmx.org';
+                              } else if (item.key === 'menu.training') {
+                                e.preventDefault();
+                                window.location.href = 'https://sipde.alianzatiradoresmx.org';
+                              }
+                            }}
                           >
                             {item.label}
                           </a>
