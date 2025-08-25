@@ -78,48 +78,13 @@ export default function Navigation() {
         </div>
 
         {/* Navigation Links */}
-        <div className="hidden md:flex items-center space-x-8">
-          <a
-            href="#mission-statement"
-            className="text-white hover:text-atm-green-1 transition-colors duration-200"
-            data-testid="link-mission"
-          >
-            {t('nav.mission')}
-          </a>
-          <a
-            href="#objectives"
-            className="text-white hover:text-atm-green-1 transition-colors duration-200"
-            data-testid="link-objectives"
-          >
-            {t('nav.objectives')}
-          </a>
-          <a
-            href="#key-values"
-            className="text-white hover:text-atm-green-1 transition-colors duration-200"
-            data-testid="link-values"
-          >
-            {t('nav.values')}
-          </a>
-          <a
-            href="#services"
-            className="text-white hover:text-atm-green-1 transition-colors duration-200"
-            data-testid="link-join"
-          >
-            {t('nav.join')}
-          </a>
+        <div className="hidden md:flex items-center justify-end">
           <a
             href="#contact"
             className="text-white hover:text-atm-green-1 transition-colors duration-200"
             data-testid="link-contact"
           >
             {t('nav.contact')}
-          </a>
-          <a
-            href="#about"
-            className="text-white hover:text-atm-green-1 transition-colors duration-200"
-            data-testid="link-about"
-          >
-            {t('nav.about')}
           </a>
         </div>
 
