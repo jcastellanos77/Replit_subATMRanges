@@ -36,7 +36,7 @@ export default function Navigation() {
                 data-testid="button-menu-toggle"
               >
                 <Menu size={20} className="mr-2" />
-                A.T.M.
+                ATM
               </Button>
             </SheetTrigger>
             <SheetContent side="left" className="w-80 bg-black border-gray-800 [&>button]:text-white [&>button]:hover:text-atm-green-2 [&>button]:w-8 [&>button]:h-8 [&>button>svg]:w-6 [&>button>svg]:h-6">
@@ -46,7 +46,7 @@ export default function Navigation() {
               </SheetHeader>
               <div className="flex flex-col h-full">
                 <div className="flex items-center justify-between p-6 border-b border-gray-800">
-                  <h2 className="text-xl font-bold text-atm-green-2">{t('nav.menu')} A.T.M.</h2>
+                  <h2 className="text-xl font-bold text-atm-green-2">{t('nav.menu')} ATM</h2>
                 </div>
                 <div className="flex-1 overflow-y-auto">
                   <nav className="p-6">
