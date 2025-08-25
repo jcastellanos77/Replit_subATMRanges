@@ -1,0 +1,49 @@
+
+Sidebar Implementation Files
+Here are ALL the files you need for the sidebar functionality:
+🎯 Core Sidebar Files
+    1. client/src/components/ui/sidebar.tsx ⭐
+        ◦ Main sidebar component with full implementation 
+        ◦ Includes: SidebarProvider, SidebarInset, SidebarTrigger, SidebarContent, etc. 
+        ◦ Has context management, responsive behavior, and keyboard shortcuts 
+    2. client/src/components/navigation.tsx ⭐
+        ◦ Current navigation implementation using Sheet component 
+        ◦ Contains the 12 menu items (Education, Statistics, Events, etc.) 
+        ◦ Uses language translations 
+🔧 Required UI Components
+    3. client/src/components/ui/sheet.tsx ⭐
+        ◦ Used in current navigation for mobile sidebar 
+        ◦ Sheet, SheetContent, SheetTrigger components 
+    4. client/src/components/ui/button.tsx ⭐
+        ◦ Used for sidebar triggers and menu items 
+    5. client/src/components/ui/separator.tsx
+        ◦ Visual separators in sidebar 
+    6. client/src/components/ui/input.tsx
+        ◦ Search functionality in sidebar 
+    7. client/src/components/ui/tooltip.tsx
+        ◦ Tooltips for collapsed sidebar state 
+    8. client/src/components/ui/skeleton.tsx
+        ◦ Loading states 
+📱 Responsive Behavior
+    9. client/src/hooks/use-mobile.tsx ⭐ 
+        ◦ Mobile detection hook (breakpoint: 768px) 
+🛠️ Utilities
+    10. client/src/lib/utils.ts ⭐ 
+        ◦ Contains cn() function for class name merging 
+        ◦ Essential for all component styling 
+🌐 Language Support
+    11. client/src/contexts/LanguageContext.tsx ⭐ 
+        ◦ Translation context with menu item translations 
+        ◦ Contains all sidebar menu labels in Spanish/English 
+🎨 Styling Files
+    12. client/src/index.css ⭐
+        ◦ Contains ATM custom CSS variables and theme colors 
+        ◦ Tailwind configuration 
+    13. tailwind.config.ts ⭐
+        ◦ Tailwind configuration with custom colors 
+        ◦ ATM brand colors: Green 1 (#1A4D2E), Green 2 (#0A8935) 
+📦 Configuration Files
+    14. components.json ⭐
+        ◦ shadcn/ui configuration for proper component imports 
+    15. package.json ⭐
+        ◦ All required dependencies (especially UI component libraries) 
