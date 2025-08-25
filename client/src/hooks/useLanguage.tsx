@@ -49,6 +49,7 @@ const translations = {
 
     // Sidebar Menu Items
     'nav.menu': 'Menú',
+    'menu.main': 'Sitio Principal',
     'menu.education': 'Educación',
     'menu.statistics': 'Estadísticas',
     'menu.events': 'Eventos',
@@ -104,6 +105,7 @@ const translations = {
 
     // Sidebar Menu Items
     'nav.menu': 'Menu',
+    'menu.main': 'Main menu',
     'menu.education': 'Education',
     'menu.statistics': 'Statistics',
     'menu.events': 'Events',

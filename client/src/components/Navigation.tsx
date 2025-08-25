@@ -10,6 +10,7 @@ export default function Navigation() {
   const { t } = useLanguage();
 
   const menuItems = [
+    { key: 'menu.main', label: t('menu.main') },
     { key: 'menu.education', label: t('menu.education') },
     { key: 'menu.statistics', label: t('menu.statistics') },
     { key: 'menu.events', label: t('menu.events') },
