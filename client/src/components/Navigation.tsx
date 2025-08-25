@@ -46,7 +46,7 @@ export default function Navigation() {
               </SheetHeader>
               <div className="flex flex-col h-full">
                 <div className="flex items-center justify-between p-6 border-b border-gray-800">
-                  <h2 className="text-xl font-bold text-atm-green-2 font-serif">{t('nav.menu')} A.T.M.</h2>
+                  <h2 className="text-xl font-bold text-atm-green-2">{t('nav.menu')} A.T.M.</h2>
                 </div>
                 <div className="flex-1 overflow-y-auto">
                   <nav className="p-6">
