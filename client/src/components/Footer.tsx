@@ -1,4 +1,7 @@
+import { useLanguage } from '@/hooks/useLanguage';
+
 export default function Footer() {
+  const { t } = useLanguage();
   return (
     <footer className="bg-atm-dark text-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
@@ -9,19 +12,19 @@ export default function Footer() {
               <div className="bg-atm-green text-white px-3 py-1 rounded-full text-sm font-semibold mr-3">
                 ATM
               </div>
-              <span className="text-lg font-semibold">Alianza de Tiradores en México</span>
+              <span className="text-lg font-semibold">{t('footer.organization')}</span>
             </div>
             <p className="text-gray-300 mb-4 max-w-md">
-              Promoviendo entrenamiento seguro, responsable y legal con armas de fuego para deporte, defensa personal y propósitos legítimos dentro del marco legal mexicano.
+              {t('footer.description')}
             </p>
             <div className="text-sm text-gray-400">
-              © 2024 ATM México. Todos los derechos reservados.
+              {t('footer.copyright')}
             </div>
           </div>
           
           {/* Contact Info */}
           <div>
-            <h4 className="text-lg font-semibold mb-4">Contacto</h4>
+            <h4 className="text-lg font-semibold mb-4">{t('footer.contact.title')}</h4>
             <div className="space-y-2 text-gray-300">
               <div className="flex items-center">
                 <i className="fas fa-envelope mr-2 text-atm-green"></i>

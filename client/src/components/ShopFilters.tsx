@@ -1,6 +1,7 @@
 import { Search, ChevronDown } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { useLanguage } from '@/hooks/useLanguage';
 
 interface ShopFiltersProps {
   searchQuery: string;
@@ -31,6 +32,7 @@ export default function ShopFilters({
   states,
   resultsCount,
 }: ShopFiltersProps) {
+  const { t } = useLanguage();
   return (
     <section className="bg-white shadow-sm border-b">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
@@ -41,7 +43,7 @@ export default function ShopFilters({
               <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
               <Input
                 type="text"
-                placeholder="Buscar tiendas..."
+                placeholder={t('search.placeholder')}
                 value={searchQuery}
                 onChange={(e) => onSearchChange(e.target.value)}
                 className="pl-10 focus:ring-2 focus:ring-atm-green focus:border-transparent"
@@ -55,11 +57,11 @@ export default function ShopFilters({
             {/* Category Filter */}
             <Select value={selectedCategory} onValueChange={onCategoryChange}>
               <SelectTrigger className="w-full sm:w-[180px] focus:ring-2 focus:ring-atm-green" data-testid="select-category">
-                <SelectValue placeholder="Categoría" />
+                <SelectValue placeholder={t('filter.category.label')} />
                 <ChevronDown className="h-4 w-4 opacity-50" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="all">Todas las categorías</SelectItem>
+                <SelectItem value="all">{t('filter.category.all')}</SelectItem>
                 {categories.map((category) => (
                   <SelectItem key={category} value={category}>
                     {category}
@@ -71,11 +73,11 @@ export default function ShopFilters({
             {/* City Filter */}
             <Select value={selectedCity} onValueChange={onCityChange}>
               <SelectTrigger className="w-full sm:w-[180px] focus:ring-2 focus:ring-atm-green" data-testid="select-city">
-                <SelectValue placeholder="Ciudad" />
+                <SelectValue placeholder={t('filter.city.label')} />
                 <ChevronDown className="h-4 w-4 opacity-50" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="all">Todas las ciudades</SelectItem>
+                <SelectItem value="all">{t('filter.city.all')}</SelectItem>
                 {cities.map((city) => (
                   <SelectItem key={city} value={city}>
                     {city}
@@ -87,11 +89,11 @@ export default function ShopFilters({
             {/* State Filter */}
             <Select value={selectedState} onValueChange={onStateChange}>
               <SelectTrigger className="w-full sm:w-[180px] focus:ring-2 focus:ring-atm-green" data-testid="select-state">
-                <SelectValue placeholder="Estado" />
+                <SelectValue placeholder={t('filter.state.label')} />
                 <ChevronDown className="h-4 w-4 opacity-50" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="all">Todos los estados</SelectItem>
+                <SelectItem value="all">{t('filter.state.all')}</SelectItem>
                 {states.map((state) => (
                   <SelectItem key={state} value={state}>
                     {state}
@@ -104,7 +106,7 @@ export default function ShopFilters({
         
         {/* Results Count */}
         <div className="mt-4 text-sm text-gray-600" data-testid="text-results-count">
-          <span>{resultsCount}</span> tiendas encontradas
+          <span>{resultsCount}</span> {t('filter.results')}
         </div>
       </div>
     </section>

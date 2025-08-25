@@ -1,6 +1,7 @@
 import { useState, useMemo } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { Shop } from "@shared/schema";
+import { useLanguage } from '@/hooks/useLanguage';
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import ShopFilters from "@/components/ShopFilters";
@@ -8,6 +9,7 @@ import ShopCard from "@/components/ShopCard";
 import { Skeleton } from "@/components/ui/skeleton";
 
 export default function ShopsPage() {
+  const { t } = useLanguage();
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("");
   const [selectedCity, setSelectedCity] = useState("");
@@ -119,9 +121,9 @@ export default function ShopsPage() {
           </div>
         ) : (
           <div className="text-center py-12">
-            <div className="text-gray-500 text-lg mb-2">No se encontraron tiendas</div>
+            <div className="text-gray-500 text-lg mb-2">{t('no-results.title')}</div>
             <div className="text-gray-400">
-              Intenta ajustar tus filtros de búsqueda
+              {t('no-results.description')}
             </div>
           </div>
         )}
