@@ -45,7 +45,7 @@ export default function Header() {
       <div className="relative h-64" style={heroStyle}>
         <div className="absolute inset-0 flex items-center justify-center">
           <div className="text-center text-white">
-            <h1 className="text-5xl md:text-6xl font-bold mb-2 tracking-tight font-serif">A.T.M.</h1>
+            <h1 className="text-5xl md:text-6xl font-bold mb-2 tracking-tight font-serif">ATM</h1>
             <h2 className="text-xl md:text-2xl font-light mb-4">{t('hero.subtitle')}</h2>
             <p className="text-base md:text-lg font-light max-w-2xl mx-auto px-4">
               {t('hero.description')}
