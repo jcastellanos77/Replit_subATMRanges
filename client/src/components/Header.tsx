@@ -18,8 +18,8 @@ export default function Header() {
           <div className="flex justify-between items-center py-4">
             {/* Logo */}
             <div className="flex items-center">
-              <div className="bg-atm-green-2 text-atm-white px-3 py-1 rounded-full text-sm font-bold font-serif">
-                A.T.M.
+              <div className="text-atm-white px-3 py-1 rounded-full text-sm font-bold font-serif" style={{backgroundColor: '#62EF83'}}>
+                ATM
               </div>
             </div>
             
