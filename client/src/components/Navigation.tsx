@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
+import { Sheet, SheetContent, SheetTrigger, SheetTitle, SheetDescription, SheetHeader } from "@/components/ui/sheet";
 import { Menu, User } from "lucide-react";
 import { useLanguage } from "@/hooks/useLanguage";
 import LanguageSelector from "@/components/LanguageSelector";
@@ -40,9 +40,13 @@ export default function Navigation() {
               </Button>
             </SheetTrigger>
             <SheetContent side="left" className="w-80 bg-black border-gray-800 [&>button]:text-white [&>button]:hover:text-atm-green-2 [&>button]:w-8 [&>button]:h-8 [&>button>svg]:w-6 [&>button>svg]:h-6">
+              <SheetHeader className="sr-only">
+                <SheetTitle>Navigation Menu</SheetTitle>
+                <SheetDescription>Main navigation menu with ATM sections</SheetDescription>
+              </SheetHeader>
               <div className="flex flex-col h-full">
                 <div className="flex items-center justify-between p-6 border-b border-gray-800">
-                  <h2 className="text-xl font-bold text-atm-green-2 font-serif">{t('nav.menu')}</h2>
+                  <h2 className="text-xl font-bold text-atm-green-2 font-serif">{t('nav.menu')} A.T.M.</h2>
                 </div>
                 <div className="flex-1 overflow-y-auto">
                   <nav className="p-6">
