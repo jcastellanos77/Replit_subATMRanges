@@ -19,7 +19,7 @@ const translations = {
     'auth.login': 'INICIAR SESIÓN',
     
     // Hero Section
-    'hero.title': 'ATM',
+    'hero.title': 'A.T.M.',
     'hero.subtitle': 'Tiendas',
     'hero.description': 'Directorio de tiendas especializadas certificadas por ATM',
     
@@ -54,7 +54,7 @@ const translations = {
     'auth.login': 'LOG IN',
     
     // Hero Section
-    'hero.title': 'ATM',
+    'hero.title': 'A.T.M.',
     'hero.subtitle': 'Shops',
     'hero.description': 'Directory of specialized shops certified by ATM',
     

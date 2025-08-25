@@ -18,8 +18,8 @@ export default function Header() {
           <div className="flex justify-between items-center py-4">
             {/* Logo */}
             <div className="flex items-center">
-              <div className="bg-atm-green text-white px-3 py-1 rounded-full text-sm font-semibold">
-                ATM
+              <div className="bg-atm-green-2 text-atm-white px-3 py-1 rounded-full text-sm font-bold font-serif">
+                A.T.M.
               </div>
             </div>
             
@@ -45,7 +45,7 @@ export default function Header() {
       <div className="relative h-64" style={heroStyle}>
         <div className="absolute inset-0 flex items-center justify-center">
           <div className="text-center text-white">
-            <h1 className="text-5xl md:text-6xl font-bold mb-2 tracking-tight">{t('hero.title')}</h1>
+            <h1 className="text-5xl md:text-6xl font-bold mb-2 tracking-tight font-serif">A.T.M.</h1>
             <h2 className="text-xl md:text-2xl font-light mb-4">{t('hero.subtitle')}</h2>
             <p className="text-base md:text-lg font-light max-w-2xl mx-auto px-4">
               {t('hero.description')}

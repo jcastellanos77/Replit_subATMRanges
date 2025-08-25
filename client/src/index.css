@@ -53,10 +53,16 @@
   --tracking-normal: 0em;
   --spacing: 0.25rem;
   
-  /* ATM Custom Colors */
-  --atm-green: hsl(142.2 76.2% 36.3%);
+  /* ATM Custom Colors - Brand Guidelines Compliant */
+  --atm-green-1: #1A4D2E; /* Brand Guideline Green 1 - backgrounds, accents, supporting elements */
+  --atm-green-2: #00A36C; /* Brand Guideline Green 2 - logo border, secondary elements */
+  --atm-black: #000000; /* Brand Guideline Black - text, emblem elements */
+  --atm-white: #FFFFFF; /* Brand Guideline White - background */
   --atm-dark: hsl(210 25% 7.8431%);
   --atm-gray: hsl(210 11.1% 25.5%);
+  
+  /* Legacy ATM green for backward compatibility */
+  --atm-green: var(--atm-green-1);
 }
 
 .dark {
@@ -117,6 +123,40 @@
 }
 
 @layer utilities {
+  /* ATM Brand Guideline Colors */
+  .bg-atm-green-1 {
+    background-color: var(--atm-green-1);
+  }
+  
+  .bg-atm-green-2 {
+    background-color: var(--atm-green-2);
+  }
+  
+  .text-atm-green-1 {
+    color: var(--atm-green-1);
+  }
+  
+  .text-atm-green-2 {
+    color: var(--atm-green-2);
+  }
+  
+  .text-atm-black {
+    color: var(--atm-black);
+  }
+  
+  .bg-atm-black {
+    background-color: var(--atm-black);
+  }
+  
+  .text-atm-white {
+    color: var(--atm-white);
+  }
+  
+  .bg-atm-white {
+    background-color: var(--atm-white);
+  }
+  
+  /* Legacy utilities for backward compatibility */
   .atm-green {
     color: var(--atm-green);
   }
