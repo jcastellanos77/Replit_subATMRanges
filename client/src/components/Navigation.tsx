@@ -53,21 +53,31 @@ export default function Navigation() {
                   <nav className="p-6">
                     <div className="space-y-4">
                       {menuItems.map((item) => (
-                        <a
-                          key={item.key}
-                          href={
-                            item.key === 'menu.main' ? 'https://alianzatiradoresmx.org' :
-                            item.key === 'menu.training' ? 'https://sipde.alianzatiradoresmx.org' : 
-                            `#${item.key.split('.')[1]}`
-                          }
-                          className="block text-white hover:text-atm-green-2 hover:bg-gray-900 px-4 py-3 rounded-lg transition-colors duration-200"
-                          data-testid={`link-${item.key.split('.')[1]}`}
-                          onClick={() => setSidebarOpen(false)}
-                          target={item.key === 'menu.main' || item.key === 'menu.training' ? '_blank' : undefined}
-                          rel={item.key === 'menu.main' || item.key === 'menu.training' ? 'noopener noreferrer' : undefined}
-                        >
-                          {item.label}
-                        </a>
+                        item.key === 'menu.stores' ? (
+                          <div
+                            key={item.key}
+                            className="block text-gray-400 px-4 py-3 rounded-lg cursor-default"
+                            data-testid={`text-${item.key.split('.')[1]}`}
+                          >
+                            {item.label}
+                          </div>
+                        ) : (
+                          <a
+                            key={item.key}
+                            href={
+                              item.key === 'menu.main' ? 'https://alianzatiradoresmx.org' :
+                              item.key === 'menu.training' ? 'https://sipde.alianzatiradoresmx.org' : 
+                              `#${item.key.split('.')[1]}`
+                            }
+                            className="block text-white hover:text-atm-green-2 hover:bg-gray-900 px-4 py-3 rounded-lg transition-colors duration-200"
+                            data-testid={`link-${item.key.split('.')[1]}`}
+                            onClick={() => setSidebarOpen(false)}
+                            target={item.key === 'menu.main' || item.key === 'menu.training' ? '_blank' : undefined}
+                            rel={item.key === 'menu.main' || item.key === 'menu.training' ? 'noopener noreferrer' : undefined}
+                          >
+                            {item.label}
+                          </a>
+                        )
                       ))}
                     </div>
                   </nav>
