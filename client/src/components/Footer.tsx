@@ -9,7 +9,7 @@ export default function Footer() {
           {/* Logo and Description */}
           <div className="col-span-1 md:col-span-2">
             <div className="flex items-center mb-4">
-              <div className="bg-atm-green text-white px-3 py-1 rounded-full text-sm font-semibold mr-3">
+              <div className="text-white px-3 py-1 rounded-full text-sm font-semibold mr-3" style={{backgroundColor: '#62EF83'}}>
                 ATM
               </div>
               <span className="text-lg font-semibold">{t('footer.organization')}</span>
