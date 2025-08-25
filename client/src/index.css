@@ -52,15 +52,16 @@
   --shadow-2xl: 0px 2px 0px 0px hsl(202.8169 89.1213% 53.1373% / 0.00);
   --tracking-normal: 0em;
   --spacing: 0.25rem;
-  
+
   /* ATM Custom Colors - Brand Guidelines Compliant */
   --atm-green-1: #1A4D2E; /* Brand Guideline Green 1 - backgrounds, accents, supporting elements */
-  --atm-green-2: #00A36C; /* Brand Guideline Green 2 - logo border, secondary elements */
+  --atm-green-2: #0A8935; /* Brand Guideline Green 2 - logo border, secondary elements */
+  --atm-green-3: #62EF83; /* Brand Guideline Green 3 - additional accent color */
   --atm-black: #000000; /* Brand Guideline Black - text, emblem elements */
   --atm-white: #FFFFFF; /* Brand Guideline White - background */
   --atm-dark: hsl(210 25% 7.8431%);
   --atm-gray: hsl(210 11.1% 25.5%);
-  
+
   /* Legacy ATM green for backward compatibility */
   --atm-green: var(--atm-green-1);
 }
@@ -127,56 +128,64 @@
   .bg-atm-green-1 {
     background-color: var(--atm-green-1);
   }
-  
+
   .bg-atm-green-2 {
     background-color: var(--atm-green-2);
   }
-  
+
   .text-atm-green-1 {
     color: var(--atm-green-1);
   }
-  
+
   .text-atm-green-2 {
     color: var(--atm-green-2);
   }
-  
+
+  .text-atm-green-3 {
+    color: var(--atm-green-3);
+  }
+
+  .bg-atm-green-3 {
+    background-color: var(--atm-green-3);
+  }
+
   .text-atm-black {
     color: var(--atm-black);
   }
-  
+
   .bg-atm-black {
     background-color: var(--atm-black);
   }
-  
+
   .text-atm-white {
     color: var(--atm-white);
   }
-  
+
   .bg-atm-white {
     background-color: var(--atm-white);
   }
-  
+
   /* Legacy utilities for backward compatibility */
   .atm-green {
     color: var(--atm-green);
   }
-  
+
   .bg-atm-green {
     background-color: var(--atm-green);
   }
-  
+
   .text-atm-dark {
     color: var(--atm-dark);
   }
-  
+
   .bg-atm-dark {
     background-color: var(--atm-dark);
   }
-  
+
   .text-atm-gray {
     color: var(--atm-gray);
   }
-  
+
   .hero-background {
     background: linear-gradient(rgba(30, 41, 59, 0.8), rgba(30, 41, 59, 0.8)), 
                 linear-gradient(135deg, #1e293b 0%, #334155 50%, #475569 100%);
@@ -184,7 +193,7 @@
     background-position: center;
     background-repeat: no-repeat;
   }
-  
+
   .line-clamp-2 {
     display: -webkit-box;
     -webkit-line-clamp: 2;
