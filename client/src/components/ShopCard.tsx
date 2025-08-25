@@ -105,14 +105,14 @@ export default function ShopCard({ shop }: ShopCardProps) {
                 <Badge
                   key={index}
                   variant="secondary"
-                  className={`text-xs ${getCategoryColorClass(category)}`}
+                  className="text-xs bg-gray-100 text-atm-green-1"
                   data-testid={`badge-category-${shop.id}-${index}`}
                 >
                   {category}
                 </Badge>
               ))}
               {shop.categories.length > 3 && (
-                <Badge variant="secondary" className="text-xs bg-gray-100 text-gray-700">
+                <Badge variant="secondary" className="text-xs bg-gray-100 text-atm-green-1">
                   +{shop.categories.length - 3}
                 </Badge>
               )}
