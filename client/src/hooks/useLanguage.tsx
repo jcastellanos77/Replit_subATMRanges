@@ -46,6 +46,26 @@ const translations = {
     // Language Selector
     'language.spanish': 'Español',
     'language.english': 'English',
+    
+    // Sidebar Menu Items
+    'nav.menu': 'MENÚ',
+    'menu.education': 'Educación',
+    'menu.statistics': 'Estadísticas',
+    'menu.events': 'Eventos',
+    'menu.ranges': 'Campos de Tiro',
+    'menu.gunsmiths': 'Armeros',
+    'menu.stores': 'Tiendas',
+    'menu.training': 'Entrenamiento',
+    'menu.membership': 'Membresía',
+    'menu.publications': 'Publicaciones',
+    'menu.media': 'Medios',
+    'menu.legal': 'Legal',
+    'menu.blog': 'Blog',
+    'nav.mission': 'MISIÓN',
+    'nav.objectives': 'OBJETIVOS',
+    'nav.values': 'VALORES',
+    'nav.join': 'ÚNETE',
+    'nav.login': 'INICIAR SESIÓN',
   },
   en: {
     // Header Navigation
@@ -81,6 +101,26 @@ const translations = {
     // Language Selector
     'language.spanish': 'Español',
     'language.english': 'English',
+    
+    // Sidebar Menu Items
+    'nav.menu': 'MENU',
+    'menu.education': 'Education',
+    'menu.statistics': 'Statistics',
+    'menu.events': 'Events',
+    'menu.ranges': 'Shooting Ranges',
+    'menu.gunsmiths': 'Gunsmiths',
+    'menu.stores': 'Stores',
+    'menu.training': 'Training',
+    'menu.membership': 'Membership',
+    'menu.publications': 'Publications',
+    'menu.media': 'Media',
+    'menu.legal': 'Legal',
+    'menu.blog': 'Blog',
+    'nav.mission': 'MISSION',
+    'nav.objectives': 'OBJECTIVES',
+    'nav.values': 'VALUES',
+    'nav.join': 'JOIN US',
+    'nav.login': 'LOGIN',
   },
 };
 
