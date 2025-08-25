@@ -81,7 +81,10 @@ export default function Navigation() {
         <div className="hidden md:flex items-center justify-end">
           <a
             href="#contact"
-            className="text-white hover:text-atm-green-1 transition-colors duration-200"
+            className="text-white transition-colors duration-200"
+            style={{ color: 'white' }}
+            onMouseEnter={(e) => e.currentTarget.style.color = '#62EF83'}
+            onMouseLeave={(e) => e.currentTarget.style.color = 'white'}
             data-testid="link-contact"
           >
             {t('nav.contact')}
