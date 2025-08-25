@@ -1,60 +1,60 @@
-import { useState } from 'react';
+import React from 'react';
+import { Button } from "@/components/ui/button";
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
+import { ChevronDown } from "lucide-react";
 import { useLanguage } from '@/hooks/useLanguage';
-import { ChevronDown } from 'lucide-react';
-import ES from 'country-flag-icons/react/3x2/ES';
-import US from 'country-flag-icons/react/3x2/US';
+import { US, MX } from 'country-flag-icons/react/3x2';
 
 export default function LanguageSelector() {
-  const { language, setLanguage, t } = useLanguage();
-  const [isOpen, setIsOpen] = useState(false);
-
-  const languages = [
-    { code: 'es' as const, label: t('language.spanish'), flag: ES },
-    { code: 'en' as const, label: t('language.english'), flag: US },
-  ];
-
-  const currentLanguage = languages.find(lang => lang.code === language);
-  const FlagComponent = currentLanguage?.flag || ES;
+  const { language, setLanguage } = useLanguage();
 
   return (
-    <div className="relative">
-      <button
-        onClick={() => setIsOpen(!isOpen)}
-        className="flex items-center space-x-2 text-white hover:text-atm-green transition-colors duration-300 bg-black bg-opacity-20 rounded-lg px-3 py-2"
-        data-testid="button-language-selector"
-      >
-        <div className="w-5 h-4 rounded-sm overflow-hidden">
-          <FlagComponent className="w-full h-full object-cover" />
-        </div>
-        <span className="text-sm font-medium">{language.toUpperCase()}</span>
-        <ChevronDown className={`w-4 h-4 transition-transform ${isOpen ? 'rotate-180' : ''}`} />
-      </button>
-
-      {isOpen && (
-        <div className="absolute right-0 mt-2 w-48 bg-atm-dark rounded-lg shadow-lg border border-gray-600 z-50">
-          {languages.map((lang) => {
-            const LangFlagComponent = lang.flag;
-            return (
-              <button
-                key={lang.code}
-                onClick={() => {
-                  setLanguage(lang.code);
-                  setIsOpen(false);
-                }}
-                className={`w-full flex items-center space-x-3 px-4 py-3 text-left hover:bg-gray-700 transition-colors first:rounded-t-lg last:rounded-b-lg ${
-                  language === lang.code ? 'bg-gray-700' : ''
-                }`}
-                data-testid={`option-language-${lang.code}`}
-              >
-                <div className="w-5 h-4 rounded-sm overflow-hidden flex-shrink-0">
-                  <LangFlagComponent className="w-full h-full object-cover" />
-                </div>
-                <span className="text-white text-sm">{lang.label}</span>
-              </button>
-            );
-          })}
-        </div>
-      )}
-    </div>
+    <DropdownMenu>
+      <DropdownMenuTrigger asChild>
+        <Button
+          variant="ghost"
+          size="sm"
+          className="h-8 w-auto px-2 bg-gray-800 hover:bg-gray-700 rounded-md border border-gray-600 flex items-center gap-1"
+          data-testid="button-language-selector"
+        >
+          <div className="flex items-center gap-1">
+            {/* Current Flag */}
+            <div className="w-5 h-4 rounded-sm overflow-hidden border border-gray-500">
+              {language === 'es' ? (
+                <MX className="w-full h-full" />
+              ) : (
+                <US className="w-full h-full" />
+              )}
+            </div>
+            <span className="text-white text-xs font-medium">
+              {language === 'es' ? 'ES' : 'EN'}
+            </span>
+            <ChevronDown className="w-3 h-3 text-gray-400" />
+          </div>
+        </Button>
+      </DropdownMenuTrigger>
+      <DropdownMenuContent align="end" className="w-32 bg-gray-800 border-gray-600">
+        <DropdownMenuItem
+          onClick={() => setLanguage('es')}
+          className="flex items-center gap-2 text-white hover:bg-gray-700 cursor-pointer"
+          data-testid="option-spanish"
+        >
+          <div className="w-5 h-4 rounded-sm overflow-hidden border border-gray-500">
+            <MX className="w-full h-full" />
+          </div>
+          <span className="text-sm">Español</span>
+        </DropdownMenuItem>
+        <DropdownMenuItem
+          onClick={() => setLanguage('en')}
+          className="flex items-center gap-2 text-white hover:bg-gray-700 cursor-pointer"
+          data-testid="option-english"
+        >
+          <div className="w-5 h-4 rounded-sm overflow-hidden border border-gray-500">
+            <US className="w-full h-full" />
+          </div>
+          <span className="text-sm">English</span>
+        </DropdownMenuItem>
+      </DropdownMenuContent>
+    </DropdownMenu>
   );
 }
