@@ -48,7 +48,7 @@ const translations = {
     'language.english': 'English',
     
     // Sidebar Menu Items
-    'nav.menu': 'MENÚ',
+    'nav.menu': 'Menú',
     'menu.education': 'Educación',
     'menu.statistics': 'Estadísticas',
     'menu.events': 'Eventos',
@@ -103,7 +103,7 @@ const translations = {
     'language.english': 'English',
     
     // Sidebar Menu Items
-    'nav.menu': 'MENU',
+    'nav.menu': 'Menu',
     'menu.education': 'Education',
     'menu.statistics': 'Statistics',
     'menu.events': 'Events',
