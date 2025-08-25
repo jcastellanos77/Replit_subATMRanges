@@ -77,11 +77,11 @@ export default function Navigation() {
           </Sheet>
         </div>
 
-        {/* Navigation Links */}
-        <div className="hidden md:flex items-center justify-end">
+        {/* User Account & Language Section */}
+        <div className="flex items-center space-x-4">
           <a
             href="#contact"
-            className="text-white transition-colors duration-200"
+            className="hidden md:block text-white transition-colors duration-200"
             style={{ color: 'white' }}
             onMouseEnter={(e) => e.currentTarget.style.color = '#62EF83'}
             onMouseLeave={(e) => e.currentTarget.style.color = 'white'}
@@ -89,10 +89,6 @@ export default function Navigation() {
           >
             {t('nav.contact')}
           </a>
-        </div>
-
-        {/* User Account & Language Section */}
-        <div className="flex items-center space-x-4">
           <LanguageSelector />
           <span
             className="text-sm text-gray-300"
