@@ -9,22 +9,22 @@ interface ShopCardProps {
 }
 
 const categoryColors: Record<string, string> = {
-  "Armería": "bg-atm-green bg-opacity-10 text-atm-green",
-  "Accesorios": "bg-blue-100 text-blue-700",
-  "Capacitación": "bg-purple-100 text-purple-700",
-  "Caza": "bg-atm-green bg-opacity-10 text-atm-green",
-  "Municiones": "bg-orange-100 text-orange-700",
-  "Mantenimiento": "bg-gray-100 text-gray-700",
-  "Táctico": "bg-atm-green bg-opacity-10 text-atm-green",
-  "Uniformes": "bg-indigo-100 text-indigo-700",
-  "Protección": "bg-yellow-100 text-yellow-700",
-  "Arquería": "bg-atm-green bg-opacity-10 text-atm-green",
-  "Ballestas": "bg-teal-100 text-teal-700",
-  "Competencia": "bg-pink-100 text-pink-700",
-  "Seguridad": "bg-red-100 text-red-700",
-  "Holsters": "bg-blue-100 text-blue-700",
-  "Reparación": "bg-gray-100 text-gray-700",
-  "Certificado": "bg-green-100 text-green-700",
+  "Armería": "bg-gray-200 text-atm-green-2",
+  "Accesorios": "bg-gray-200 text-atm-green-2",
+  "Capacitación": "bg-gray-200 text-atm-green-2",
+  "Caza": "bg-gray-200 text-atm-green-2",
+  "Municiones": "bg-gray-200 text-atm-green-2",
+  "Mantenimiento": "bg-gray-200 text-atm-green-2",
+  "Táctico": "bg-gray-200 text-atm-green-2",
+  "Uniformes": "bg-gray-200 text-atm-green-2",
+  "Protección": "bg-gray-200 text-atm-green-2",
+  "Arquería": "bg-gray-200 text-atm-green-2",
+  "Ballestas": "bg-gray-200 text-atm-green-2",
+  "Competencia": "bg-gray-200 text-atm-green-2",
+  "Seguridad": "bg-gray-200 text-atm-green-2",
+  "Holsters": "bg-gray-200 text-atm-green-2",
+  "Reparación": "bg-gray-200 text-atm-green-2",
+  "Certificado": "bg-gray-200 text-atm-green-2",
 };
 
 export default function ShopCard({ shop }: ShopCardProps) {
@@ -47,7 +47,7 @@ export default function ShopCard({ shop }: ShopCardProps) {
   };
 
   const getCategoryColorClass = (category: string) => {
-    return categoryColors[category] || "bg-gray-100 text-gray-700";
+    return categoryColors[category] || "bg-gray-200 text-atm-green-2";
   };
 
   const renderStars = (rating: string | null) => {
@@ -112,7 +112,7 @@ export default function ShopCard({ shop }: ShopCardProps) {
                 </Badge>
               ))}
               {shop.categories.length > 3 && (
-                <Badge variant="secondary" className="text-xs bg-gray-100 text-gray-700">
+                <Badge variant="secondary" className="text-xs bg-gray-200 text-atm-green-2">
                   +{shop.categories.length - 3}
                 </Badge>
               )}
