@@ -27,15 +27,15 @@ export default function Footer() {
             <h4 className="text-lg font-semibold mb-4">{t('footer.contact.title')}</h4>
             <div className="space-y-2 text-gray-300">
               <div className="flex items-center">
-                <i className="fas fa-envelope mr-2 text-atm-green"></i>
+                <i className="fas fa-envelope mr-2 text-atm-green-3"></i>
                 <span className="text-sm" data-testid="text-contact-email">contacto@alianzatiradoresmx.org</span>
               </div>
               <div className="flex items-center">
-                <i className="fas fa-phone mr-2 text-atm-green"></i>
+                <i className="fas fa-phone mr-2 text-atm-green-3"></i>
                 <span className="text-sm" data-testid="text-contact-phone">+52 (55) 1234-5678</span>
               </div>
               <div className="flex items-center">
-                <i className="fas fa-map-marker-alt mr-2 text-atm-green"></i>
+                <i className="fas fa-map-marker-alt mr-2 text-atm-green-3"></i>
                 <span className="text-sm" data-testid="text-contact-address">Ciudad de México, México</span>
               </div>
             </div>
