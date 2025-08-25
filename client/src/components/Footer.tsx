@@ -35,7 +35,7 @@ export default function Footer() {
                 <span className="text-sm" data-testid="text-contact-phone">+52 (55) 1234-5678</span>
               </div>
               <div className="flex items-center">
-                <i className="fas fa-map-marker-alt mr-2 text-atm-green"></i>
+                <i className="fas fa-map-marker-alt mr-2" style={{color: '#62EF83'}}></i>
                 <span className="text-sm" data-testid="text-contact-address">Ciudad de México, México</span>
               </div>
             </div>
