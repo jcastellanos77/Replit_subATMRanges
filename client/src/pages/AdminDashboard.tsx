@@ -49,19 +49,26 @@ export default function AdminDashboard() {
   const deleteShopMutation = useMutation({
     mutationFn: async (id: string) => {
       const response = await apiRequest('DELETE', `/api/admin/shops/${id}`);
-      return response.json();
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.message || 'Failed to delete shop');
+      }
+      return { success: true };
     },
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['/api/shops'] });
+    onSuccess: async () => {
+      // Force immediate refresh of the shop list
+      await queryClient.invalidateQueries({ queryKey: ['/api/shops'] });
+      await queryClient.refetchQueries({ queryKey: ['/api/shops'] });
+      
       toast({
-        title: 'Shop Deleted',
-        description: 'Shop has been successfully deleted.',
+        title: '✅ Shop Deleted Successfully',
+        description: 'The shop has been removed and the list has been updated.',
       });
     },
     onError: (error) => {
       toast({
-        title: 'Error',
-        description: error.message || 'Failed to delete shop',
+        title: 'Deletion Error',
+        description: error.message || 'Failed to delete shop. Please try again.',
         variant: 'destructive',
       });
     },
