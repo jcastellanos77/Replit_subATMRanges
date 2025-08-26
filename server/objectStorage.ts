@@ -122,24 +122,17 @@ export class ObjectStorageService {
       throw new ObjectNotFoundError();
     }
 
-    const parts = objectPath.slice(1).split("/");
-    if (parts.length < 2) {
-      throw new ObjectNotFoundError();
-    }
-
-    const entityId = parts.slice(1).join("/");
-    let entityDir = this.getPrivateObjectDir();
-    if (!entityDir.endsWith("/")) {
-      entityDir = `${entityDir}/`;
-    }
+    // Remove '/objects' prefix to get the actual storage path
+    const storagePath = objectPath.slice(8); // Remove '/objects'
     
-    const objectEntityPath = `${entityDir}${entityId}`;
-    const { bucketName, objectName } = parseObjectPath(objectEntityPath);
+    // Parse the storage path directly
+    const { bucketName, objectName } = parseObjectPath(storagePath);
     const bucket = objectStorageClient.bucket(bucketName);
     const objectFile = bucket.file(objectName);
     
     const [exists] = await objectFile.exists();
     if (!exists) {
+      console.error(`Object not found: ${storagePath}`);
       throw new ObjectNotFoundError();
     }
     
