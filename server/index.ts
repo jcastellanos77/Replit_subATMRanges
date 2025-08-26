@@ -1,9 +1,24 @@
 import express, { type Request, Response, NextFunction } from "express";
+import session from "express-session";
 import { registerRoutes } from "./routes";
 import { setupVite, serveStatic, log } from "./vite";
 import { initializeDatabase } from "./initializeData";
+import { setupAuthRoutes } from "./auth";
 
 const app = express();
+
+// Session configuration
+app.use(session({
+  secret: process.env.SESSION_SECRET || 'atm-shops-admin-secret-key-dev',
+  resave: false,
+  saveUninitialized: false,
+  cookie: {
+    secure: false, // Set to true in production with HTTPS
+    httpOnly: true,
+    maxAge: 1000 * 60 * 60 * 24 // 24 hours
+  }
+}));
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
@@ -44,6 +59,9 @@ app.use((req, res, next) => {
   } catch (error) {
     console.error("Failed to initialize database:", error);
   }
+
+  // Setup authentication routes
+  setupAuthRoutes(app);
 
   const server = await registerRoutes(app);
 

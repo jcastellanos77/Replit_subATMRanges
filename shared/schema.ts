@@ -25,8 +25,6 @@ export const shops = pgTable("shops", {
   googleMapsUrl: text("google_maps_url").notNull(),
   latitude: decimal("latitude", { precision: 10, scale: 8 }),
   longitude: decimal("longitude", { precision: 11, scale: 8 }),
-  rating: decimal("rating", { precision: 2, scale: 1 }),
-  hours: text("hours"),
   isVerified: text("is_verified").default("false"),
 });
 

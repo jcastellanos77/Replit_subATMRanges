@@ -47,8 +47,6 @@ export class MemStorage implements IStorage {
         googleMapsUrl: "https://maps.google.com/?q=19.3906,-99.1426",
         latitude: "19.3906",
         longitude: "-99.1426",
-        rating: "4.8",
-        hours: "Lun-Vie 9:00-18:00, Sáb 10:00-16:00",
         isVerified: "true"
       },
       {
@@ -66,8 +64,6 @@ export class MemStorage implements IStorage {
         googleMapsUrl: "https://maps.google.com/?q=20.6597,-103.3496",
         latitude: "20.6597",
         longitude: "-103.3496",
-        rating: "4.6",
-        hours: "Lun-Sáb 9:00-19:00",
         isVerified: "true"
       },
       {
@@ -85,8 +81,6 @@ export class MemStorage implements IStorage {
         googleMapsUrl: "https://maps.google.com/?q=25.6866,-100.3161",
         latitude: "25.6866",
         longitude: "-100.3161",
-        rating: "4.9",
-        hours: "Lun-Vie 8:00-17:00",
         isVerified: "true"
       },
       {
@@ -104,8 +98,6 @@ export class MemStorage implements IStorage {
         googleMapsUrl: "https://maps.google.com/?q=19.0414,-98.2063",
         latitude: "19.0414",
         longitude: "-98.2063",
-        rating: "4.7",
-        hours: "Lun-Sáb 9:00-18:00",
         isVerified: "true"
       },
       {
@@ -123,8 +115,6 @@ export class MemStorage implements IStorage {
         googleMapsUrl: "https://maps.google.com/?q=32.5149,-117.0382",
         latitude: "32.5149",
         longitude: "-117.0382",
-        rating: "4.5",
-        hours: "Lun-Vie 9:00-18:00, Sáb 10:00-15:00",
         isVerified: "true"
       },
       {
@@ -142,8 +132,6 @@ export class MemStorage implements IStorage {
         googleMapsUrl: "https://maps.google.com/?q=20.9674,-89.5926",
         latitude: "20.9674",
         longitude: "-89.5926",
-        rating: "4.8",
-        hours: "Lun-Vie 8:30-17:30, Sáb 9:00-14:00",
         isVerified: "true"
       }
     ];
@@ -156,8 +144,6 @@ export class MemStorage implements IStorage {
         website: shop.website ?? null,
         latitude: shop.latitude ?? null,
         longitude: shop.longitude ?? null,
-        rating: shop.rating ?? null,
-        hours: shop.hours ?? null,
         isVerified: shop.isVerified ?? null
       };
       this.shops.set(id, fullShop);
@@ -236,8 +222,6 @@ export class MemStorage implements IStorage {
       website: insertShop.website ?? null,
       latitude: insertShop.latitude ?? null,
       longitude: insertShop.longitude ?? null,
-      rating: insertShop.rating ?? null,
-      hours: insertShop.hours ?? null,
       isVerified: insertShop.isVerified ?? null
     };
     this.shops.set(id, shop);

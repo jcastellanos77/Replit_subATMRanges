@@ -27,8 +27,6 @@ export async function initializeDatabase() {
     googleMapsUrl: "https://maps.google.com/?q=19.3906,-99.1426",
     latitude: "19.3906",
     longitude: "-99.1426",
-    rating: "4.8",
-    hours: "Lun-Vie 9:00-18:00, Sáb 10:00-16:00",
     isVerified: "true"
   };
 
