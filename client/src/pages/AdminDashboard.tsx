@@ -243,7 +243,11 @@ export default function AdminDashboard() {
                     disabled={deleteShopMutation.isPending}
                     data-testid={`button-delete-${shop.id}`}
                   >
-                    <Trash2 className="h-4 w-4" />
+                    {deleteShopMutation.isPending ? (
+                      <div className="h-4 w-4 animate-spin rounded-full border-2 border-gray-400 border-t-transparent"></div>
+                    ) : (
+                      <Trash2 className="h-4 w-4" />
+                    )}
                   </Button>
                 </div>
               </CardContent>
