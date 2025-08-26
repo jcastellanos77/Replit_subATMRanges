@@ -18,9 +18,14 @@ import {
   Trash2, 
   Shield, 
   UserPlus,
-  ArrowLeft 
+  ArrowLeft,
+  KeyRound,
+  RotateCcw 
 } from "lucide-react";
 import { useLocation } from "wouter";
+import { ChangePasswordDialog } from "@/components/ChangePasswordDialog";
+import { ResetPasswordDialog } from "@/components/ResetPasswordDialog";
+import { useAuth } from "@/hooks/useAuth";
 
 const createUserSchema = insertUserSchema.extend({
   confirmPassword: z.string().min(1, "Please confirm your password"),
@@ -41,6 +46,7 @@ export default function AdminUsers() {
   const [showAddForm, setShowAddForm] = useState(false);
   const { toast } = useToast();
   const queryClient = useQueryClient();
+  const { user: currentUser } = useAuth();
 
   const form = useForm<CreateUserForm>({
     resolver: zodResolver(createUserSchema),
@@ -153,6 +159,18 @@ export default function AdminUsers() {
                 <h1 className="text-2xl font-bold text-gray-900">Admin User Management</h1>
                 <p className="text-gray-600">Manage administrator access to the shop directory</p>
               </div>
+            </div>
+            <div className="flex items-center gap-3">
+              <ChangePasswordDialog>
+                <Button
+                  variant="outline"
+                  className="flex items-center gap-2"
+                  data-testid="button-change-my-password"
+                >
+                  <KeyRound className="h-4 w-4" />
+                  Change My Password
+                </Button>
+              </ChangePasswordDialog>
             </div>
           </div>
         </div>
@@ -314,7 +332,12 @@ export default function AdminUsers() {
               <CardHeader>
                 <div className="flex justify-between items-start">
                   <div>
-                    <CardTitle className="text-lg">{user.username}</CardTitle>
+                    <CardTitle className="text-lg">
+                      {user.username}
+                      {currentUser?.id === user.id && (
+                        <Badge variant="secondary" className="ml-2">You</Badge>
+                      )}
+                    </CardTitle>
                     <CardDescription>Administrator</CardDescription>
                   </div>
                   <Badge variant="default">
@@ -338,6 +361,17 @@ export default function AdminUsers() {
                 </div>
                 
                 <div className="flex justify-end space-x-2 pt-2">
+                  {currentUser?.id !== user.id && (
+                    <ResetPasswordDialog userId={user.id} username={user.username}>
+                      <Button
+                        size="sm"
+                        variant="secondary"
+                        data-testid={`button-reset-password-${user.id}`}
+                      >
+                        <RotateCcw className="h-4 w-4" />
+                      </Button>
+                    </ResetPasswordDialog>
+                  )}
                   <Button
                     size="sm"
                     variant="outline"

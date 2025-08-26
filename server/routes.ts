@@ -1,7 +1,7 @@
 import type { Express } from "express";
 import { createServer, type Server } from "http";
 import { storage } from "./storage";
-import { insertShopSchema, updateShopSchema, insertUserSchema } from "@shared/schema";
+import { insertShopSchema, updateShopSchema, insertUserSchema, changePasswordSchema, resetPasswordSchema } from "@shared/schema";
 import bcrypt from "bcryptjs";
 import { requireAuth } from "./auth";
 import { ObjectStorageService, ObjectNotFoundError } from "./objectStorage";
@@ -279,6 +279,82 @@ export async function registerRoutes(app: Express): Promise<Server> {
     } catch (error) {
       console.error("Error deleting user:", error);
       res.status(500).json({ message: "Error deleting user" });
+    }
+  });
+
+  // Change current user's password
+  app.put("/api/auth/change-password", requireAuth, async (req, res) => {
+    try {
+      const result = changePasswordSchema.safeParse(req.body);
+      if (!result.success) {
+        return res.status(400).json({ 
+          message: "Invalid password data", 
+          errors: result.error.errors 
+        });
+      }
+
+      const { currentPassword, newPassword } = result.data;
+      const userId = req.session.userId!;
+      
+      // Get user with current password to verify
+      const user = await storage.getUserWithPassword(userId);
+      if (!user) {
+        return res.status(404).json({ message: "User not found" });
+      }
+      
+      // Verify current password
+      const isCurrentPasswordValid = await bcrypt.compare(currentPassword, user.password);
+      if (!isCurrentPasswordValid) {
+        return res.status(400).json({ message: "Current password is incorrect" });
+      }
+      
+      // Hash new password and update
+      const hashedNewPassword = await bcrypt.hash(newPassword, 10);
+      const updated = await storage.updateUserPassword(userId, hashedNewPassword);
+      
+      if (!updated) {
+        return res.status(500).json({ message: "Failed to update password" });
+      }
+      
+      res.json({ message: "Password updated successfully" });
+    } catch (error) {
+      console.error("Error changing password:", error);
+      res.status(500).json({ message: "Error changing password" });
+    }
+  });
+
+  // Reset another admin user's password (Admin only)
+  app.put("/api/admin/users/:id/reset-password", requireAuth, async (req, res) => {
+    try {
+      const { id } = req.params;
+      const result = resetPasswordSchema.safeParse({ ...req.body, userId: id });
+      if (!result.success) {
+        return res.status(400).json({ 
+          message: "Invalid password data", 
+          errors: result.error.errors 
+        });
+      }
+
+      const { newPassword } = result.data;
+      
+      // Verify user exists
+      const user = await storage.getUserWithPassword(id);
+      if (!user) {
+        return res.status(404).json({ message: "User not found" });
+      }
+      
+      // Hash new password and update
+      const hashedNewPassword = await bcrypt.hash(newPassword, 10);
+      const updated = await storage.updateUserPassword(id, hashedNewPassword);
+      
+      if (!updated) {
+        return res.status(500).json({ message: "Failed to reset password" });
+      }
+      
+      res.json({ message: "Password reset successfully" });
+    } catch (error) {
+      console.error("Error resetting password:", error);
+      res.status(500).json({ message: "Error resetting password" });
     }
   });
 

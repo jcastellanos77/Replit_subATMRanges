@@ -33,6 +33,24 @@ export const insertUserSchema = createInsertSchema(users).pick({
   password: true,
 });
 
+export const changePasswordSchema = z.object({
+  currentPassword: z.string().min(1, "Current password is required"),
+  newPassword: z.string().min(6, "Password must be at least 6 characters"),
+  confirmPassword: z.string().min(1, "Password confirmation is required"),
+}).refine(data => data.newPassword === data.confirmPassword, {
+  message: "Passwords don't match",
+  path: ["confirmPassword"],
+});
+
+export const resetPasswordSchema = z.object({
+  userId: z.string().min(1, "User ID is required"),
+  newPassword: z.string().min(6, "Password must be at least 6 characters"),
+  confirmPassword: z.string().min(1, "Password confirmation is required"),
+}).refine(data => data.newPassword === data.confirmPassword, {
+  message: "Passwords don't match",
+  path: ["confirmPassword"],
+});
+
 export const insertShopSchema = createInsertSchema(shops).omit({
   id: true,
 });
@@ -42,6 +60,8 @@ export const updateShopSchema = createInsertSchema(shops).partial().omit({
 });
 
 export type InsertUser = z.infer<typeof insertUserSchema>;
+export type ChangePassword = z.infer<typeof changePasswordSchema>;
+export type ResetPassword = z.infer<typeof resetPasswordSchema>;
 export type User = typeof users.$inferSelect;
 export type InsertShop = z.infer<typeof insertShopSchema>;
 export type UpdateShop = z.infer<typeof updateShopSchema>;

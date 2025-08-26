@@ -177,6 +177,21 @@ export class MemStorage implements IStorage {
     return this.users.delete(id);
   }
 
+  async updateUserPassword(userId: string, newPasswordHash: string): Promise<boolean> {
+    const user = this.users.get(userId);
+    if (!user) {
+      return false;
+    }
+    
+    const updatedUser = { ...user, password: newPasswordHash };
+    this.users.set(userId, updatedUser);
+    return true;
+  }
+
+  async getUserWithPassword(id: string): Promise<User | undefined> {
+    return this.users.get(id);
+  }
+
   async getShops(): Promise<Shop[]> {
     return Array.from(this.shops.values());
   }
@@ -279,6 +294,24 @@ export class DatabaseStorage implements IStorage {
   async deleteUser(id: string): Promise<boolean> {
     const result = await db.delete(users).where(eq(users.id, id));
     return (result.rowCount || 0) > 0;
+  }
+
+  async updateUserPassword(userId: string, newPasswordHash: string): Promise<boolean> {
+    const result = await db
+      .update(users)
+      .set({ password: newPasswordHash })
+      .where(eq(users.id, userId));
+    
+    return (result.rowCount || 0) > 0;
+  }
+
+  async getUserWithPassword(id: string): Promise<User | undefined> {
+    const [user] = await db
+      .select()
+      .from(users)
+      .where(eq(users.id, id));
+    
+    return user;
   }
 
   async getShops(): Promise<Shop[]> {
