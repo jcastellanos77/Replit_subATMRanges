@@ -1,7 +1,8 @@
 import type { Express } from "express";
 import { createServer, type Server } from "http";
 import { storage } from "./storage";
-import { insertShopSchema, updateShopSchema } from "@shared/schema";
+import { insertShopSchema, updateShopSchema, insertUserSchema } from "@shared/schema";
+import bcrypt from "bcryptjs";
 import { requireAuth } from "./auth";
 import { ObjectStorageService, ObjectNotFoundError } from "./objectStorage";
 import { z } from "zod";
@@ -201,6 +202,83 @@ export async function registerRoutes(app: Express): Promise<Server> {
     } catch (error) {
       console.error("Error getting upload URL:", error);
       res.status(500).json({ message: "Error getting upload URL" });
+    }
+  });
+
+  // Admin user management routes
+  // Get all admin users
+  app.get("/api/admin/users", requireAuth, async (req, res) => {
+    try {
+      const users = await storage.getAllUsers();
+      // Remove password from response for security
+      const safeUsers = users.map(({ password, ...user }) => user);
+      res.json(safeUsers);
+    } catch (error) {
+      console.error("Error fetching users:", error);
+      res.status(500).json({ message: "Error fetching users" });
+    }
+  });
+
+  // Create a new admin user
+  app.post("/api/admin/users", requireAuth, async (req, res) => {
+    try {
+      const result = insertUserSchema.safeParse(req.body);
+      if (!result.success) {
+        return res.status(400).json({ 
+          message: "Invalid user data", 
+          errors: result.error.errors 
+        });
+      }
+
+      const { username, password } = result.data;
+      
+      // Check if username already exists
+      const existingUser = await storage.getUserByUsername(username);
+      if (existingUser) {
+        return res.status(409).json({ message: "Username already exists" });
+      }
+
+      const hashedPassword = await bcrypt.hash(password, 10);
+      const newUser = await storage.createUser({
+        username,
+        password: hashedPassword,
+      });
+
+      // Remove password from response
+      const { password: _, ...safeUser } = newUser;
+      res.status(201).json(safeUser);
+    } catch (error) {
+      console.error("Error creating user:", error);
+      res.status(500).json({ message: "Error creating user" });
+    }
+  });
+
+  // Delete an admin user
+  app.delete("/api/admin/users/:id", requireAuth, async (req, res) => {
+    try {
+      const { id } = req.params;
+      
+      // Prevent deleting self
+      if (req.session.userId === id) {
+        return res.status(400).json({ message: "Cannot delete your own account" });
+      }
+      
+      // Get all users to check if this is the last admin
+      const allUsers = await storage.getAllUsers();
+      if (allUsers.length <= 1) {
+        return res.status(400).json({ message: "Cannot delete the last admin user" });
+      }
+      
+      const deleted = await storage.deleteUser(id);
+      
+      if (!deleted) {
+        return res.status(404).json({ message: "User not found" });
+      }
+      
+      res.status(204).send();
+    } catch (error) {
+      console.error("Error deleting user:", error);
+      res.status(500).json({ message: "Error deleting user" });
     }
   });
 

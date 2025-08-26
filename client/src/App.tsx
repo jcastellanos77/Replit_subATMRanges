@@ -10,6 +10,7 @@ import AdminLogin from "@/pages/AdminLogin";
 import AdminDashboard from "@/pages/AdminDashboard";
 import AdminShopNew from "@/pages/AdminShopNew";
 import AdminShopEdit from "@/pages/AdminShopEdit";
+import AdminUsers from "@/pages/AdminUsers";
 import NotFound from "@/pages/not-found";
 
 function ProtectedAdminRoute({ component: Component }: { component: React.ComponentType }) {
@@ -39,6 +40,7 @@ function Router() {
       <Route path="/admin" component={() => <ProtectedAdminRoute component={AdminDashboard} />} />
       <Route path="/admin/shops/new" component={() => <ProtectedAdminRoute component={AdminShopNew} />} />
       <Route path="/admin/shops/edit/:id" component={() => <ProtectedAdminRoute component={AdminShopEdit} />} />
+      <Route path="/admin/users" component={() => <ProtectedAdminRoute component={AdminUsers} />} />
       <Route component={NotFound} />
     </Switch>
   );

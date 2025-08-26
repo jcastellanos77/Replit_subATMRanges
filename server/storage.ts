@@ -7,6 +7,8 @@ export interface IStorage {
   getUser(id: string): Promise<User | undefined>;
   getUserByUsername(username: string): Promise<User | undefined>;
   createUser(user: InsertUser): Promise<User>;
+  getAllUsers(): Promise<User[]>;
+  deleteUser(id: string): Promise<boolean>;
   getShops(): Promise<Shop[]>;
   getShopById(id: string): Promise<Shop | undefined>;
   getShopsByFilters(filters: {
@@ -167,6 +169,14 @@ export class MemStorage implements IStorage {
     return user;
   }
 
+  async getAllUsers(): Promise<User[]> {
+    return Array.from(this.users.values());
+  }
+
+  async deleteUser(id: string): Promise<boolean> {
+    return this.users.delete(id);
+  }
+
   async getShops(): Promise<Shop[]> {
     return Array.from(this.shops.values());
   }
@@ -260,6 +270,15 @@ export class DatabaseStorage implements IStorage {
       .values(insertUser)
       .returning();
     return user;
+  }
+
+  async getAllUsers(): Promise<User[]> {
+    return await db.select().from(users);
+  }
+
+  async deleteUser(id: string): Promise<boolean> {
+    const result = await db.delete(users).where(eq(users.id, id));
+    return (result.rowCount || 0) > 0;
   }
 
   async getShops(): Promise<Shop[]> {

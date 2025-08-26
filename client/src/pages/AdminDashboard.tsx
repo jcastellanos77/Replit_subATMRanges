@@ -17,7 +17,8 @@ import {
   Mail, 
   Globe,
   LogOut,
-  Shield 
+  Shield,
+  Users 
 } from 'lucide-react';
 
 type Shop = {
@@ -171,13 +172,23 @@ export default function AdminDashboard() {
 
         <div className="flex justify-between items-center mb-6">
           <h2 className="text-2xl font-bold text-gray-900">Shop Management</h2>
-          <Button
-            onClick={() => setLocation('/admin/shops/new')}
-            data-testid="button-add-shop"
-          >
-            <Plus className="h-4 w-4 mr-2" />
-            Add New Shop
-          </Button>
+          <div className="flex space-x-3">
+            <Button
+              variant="outline"
+              onClick={() => setLocation('/admin/users')}
+              data-testid="button-manage-admins"
+            >
+              <Users className="h-4 w-4 mr-2" />
+              Manage Admins
+            </Button>
+            <Button
+              onClick={() => setLocation('/admin/shops/new')}
+              data-testid="button-add-shop"
+            >
+              <Plus className="h-4 w-4 mr-2" />
+              Add New Shop
+            </Button>
+          </div>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
