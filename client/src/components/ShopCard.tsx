@@ -33,6 +33,25 @@ export default function ShopCard({ shop }: ShopCardProps) {
   };
 
   const renderIcon = () => {
+    // Check if logo is an image URL
+    if (shop.logo && (shop.logo.startsWith('/') || shop.logo.startsWith('http'))) {
+      return (
+        <div className="flex items-center justify-center">
+          <img 
+            src={shop.logo} 
+            alt={`${shop.name} logo`}
+            className="w-8 h-8 object-contain"
+            onError={(e) => {
+              // Fallback to default icon if image fails to load
+              const target = e.target as HTMLImageElement;
+              target.style.display = 'none';
+            }}
+          />
+          <span className="text-2xl hidden">🏪</span>
+        </div>
+      );
+    }
+    
     // Map logo strings to appropriate icons
     const iconMap: Record<string, JSX.Element> = {
       "fas fa-crosshairs": <span className="text-2xl">🎯</span>,
@@ -140,17 +159,6 @@ export default function ShopCard({ shop }: ShopCardProps) {
                   >
                     {shop.website}
                   </a>
-                </div>
-              )}
-              {shop.hours && (
-                <div className="flex items-center">
-                  <Clock className="w-3 h-3 text-atm-green mr-2 flex-shrink-0" />
-                  <span className="truncate" data-testid={`text-shop-hours-${shop.id}`}>{shop.hours}</span>
-                </div>
-              )}
-              {shop.rating && (
-                <div className="flex items-center">
-                  {renderStars(shop.rating)}
                 </div>
               )}
             </div>
