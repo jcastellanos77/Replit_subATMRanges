@@ -1,4 +1,6 @@
-import { type User, type InsertUser, type Shop, type InsertShop } from "@shared/schema";
+import { type User, type InsertUser, type Shop, type InsertShop, type UpdateShop, users, shops } from "@shared/schema";
+import { db } from "./db";
+import { eq, and, or, ilike } from "drizzle-orm";
 import { randomUUID } from "crypto";
 
 export interface IStorage {
@@ -14,6 +16,8 @@ export interface IStorage {
     state?: string;
   }): Promise<Shop[]>;
   createShop(shop: InsertShop): Promise<Shop>;
+  updateShop(id: string, shop: UpdateShop): Promise<Shop | undefined>;
+  deleteShop(id: string): Promise<boolean>;
 }
 
 export class MemStorage implements IStorage {
@@ -239,6 +243,110 @@ export class MemStorage implements IStorage {
     this.shops.set(id, shop);
     return shop;
   }
+
+  async updateShop(id: string, updateShop: UpdateShop): Promise<Shop | undefined> {
+    const existingShop = this.shops.get(id);
+    if (!existingShop) {
+      return undefined;
+    }
+    const updatedShop: Shop = { ...existingShop, ...updateShop };
+    this.shops.set(id, updatedShop);
+    return updatedShop;
+  }
+
+  async deleteShop(id: string): Promise<boolean> {
+    return this.shops.delete(id);
+  }
 }
 
-export const storage = new MemStorage();
+export class DatabaseStorage implements IStorage {
+  async getUser(id: string): Promise<User | undefined> {
+    const [user] = await db.select().from(users).where(eq(users.id, id));
+    return user || undefined;
+  }
+
+  async getUserByUsername(username: string): Promise<User | undefined> {
+    const [user] = await db.select().from(users).where(eq(users.username, username));
+    return user || undefined;
+  }
+
+  async createUser(insertUser: InsertUser): Promise<User> {
+    const [user] = await db
+      .insert(users)
+      .values(insertUser)
+      .returning();
+    return user;
+  }
+
+  async getShops(): Promise<Shop[]> {
+    return await db.select().from(shops);
+  }
+
+  async getShopById(id: string): Promise<Shop | undefined> {
+    const [shop] = await db.select().from(shops).where(eq(shops.id, id));
+    return shop || undefined;
+  }
+
+  async getShopsByFilters(filters: {
+    search?: string;
+    category?: string;
+    city?: string;
+    state?: string;
+  }): Promise<Shop[]> {
+    const conditions = [];
+
+    if (filters.search) {
+      const searchTerm = `%${filters.search}%`;
+      conditions.push(
+        or(
+          ilike(shops.name, searchTerm),
+          ilike(shops.description, searchTerm),
+          ilike(shops.city, searchTerm)
+        )
+      );
+    }
+
+    if (filters.category) {
+      // For array column search, we'll use a simpler approach
+      conditions.push(ilike(shops.categories, `%${filters.category}%`));
+    }
+
+    if (filters.city) {
+      conditions.push(ilike(shops.city, filters.city));
+    }
+
+    if (filters.state) {
+      conditions.push(ilike(shops.state, filters.state));
+    }
+
+    if (conditions.length > 0) {
+      return await db.select().from(shops).where(and(...conditions));
+    }
+    
+    return await db.select().from(shops);
+  }
+
+  async createShop(insertShop: InsertShop): Promise<Shop> {
+    const [shop] = await db
+      .insert(shops)
+      .values(insertShop)
+      .returning();
+    return shop;
+  }
+
+  async updateShop(id: string, updateShop: UpdateShop): Promise<Shop | undefined> {
+    const [shop] = await db
+      .update(shops)
+      .set(updateShop)
+      .where(eq(shops.id, id))
+      .returning();
+    return shop || undefined;
+  }
+
+  async deleteShop(id: string): Promise<boolean> {
+    const result = await db.delete(shops).where(eq(shops.id, id));
+    return (result.rowCount || 0) > 0;
+  }
+}
+
+export const storage = new DatabaseStorage();

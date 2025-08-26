@@ -1,6 +1,7 @@
 import type { Express } from "express";
 import { createServer, type Server } from "http";
 import { storage } from "./storage";
+import { insertShopSchema, updateShopSchema } from "@shared/schema";
 import { z } from "zod";
 
 const filtersSchema = z.object({
@@ -85,6 +86,61 @@ export async function registerRoutes(app: Express): Promise<Server> {
       res.json(shop);
     } catch (error) {
       res.status(500).json({ message: "Error retrieving shop" });
+    }
+  });
+
+  // Create new shop
+  app.post("/api/shops", async (req, res) => {
+    try {
+      const shopData = insertShopSchema.parse(req.body);
+      const newShop = await storage.createShop(shopData);
+      res.status(201).json(newShop);
+    } catch (error) {
+      if (error instanceof z.ZodError) {
+        res.status(400).json({ message: "Invalid shop data", errors: error.errors });
+      } else {
+        console.error("Error creating shop:", error);
+        res.status(500).json({ message: "Error creating shop" });
+      }
+    }
+  });
+
+  // Update shop
+  app.put("/api/shops/:id", async (req, res) => {
+    try {
+      const { id } = req.params;
+      const shopData = updateShopSchema.parse(req.body);
+      const updatedShop = await storage.updateShop(id, shopData);
+      
+      if (!updatedShop) {
+        return res.status(404).json({ message: "Shop not found" });
+      }
+      
+      res.json(updatedShop);
+    } catch (error) {
+      if (error instanceof z.ZodError) {
+        res.status(400).json({ message: "Invalid shop data", errors: error.errors });
+      } else {
+        console.error("Error updating shop:", error);
+        res.status(500).json({ message: "Error updating shop" });
+      }
+    }
+  });
+
+  // Delete shop
+  app.delete("/api/shops/:id", async (req, res) => {
+    try {
+      const { id } = req.params;
+      const deleted = await storage.deleteShop(id);
+      
+      if (!deleted) {
+        return res.status(404).json({ message: "Shop not found" });
+      }
+      
+      res.status(204).send();
+    } catch (error) {
+      console.error("Error deleting shop:", error);
+      res.status(500).json({ message: "Error deleting shop" });
     }
   });
 

@@ -39,7 +39,12 @@ export const insertShopSchema = createInsertSchema(shops).omit({
   id: true,
 });
 
+export const updateShopSchema = createInsertSchema(shops).partial().omit({
+  id: true,
+});
+
 export type InsertUser = z.infer<typeof insertUserSchema>;
 export type User = typeof users.$inferSelect;
 export type InsertShop = z.infer<typeof insertShopSchema>;
+export type UpdateShop = z.infer<typeof updateShopSchema>;
 export type Shop = typeof shops.$inferSelect;
