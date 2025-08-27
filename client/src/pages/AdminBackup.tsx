@@ -307,7 +307,7 @@ export default function AdminBackup() {
             <div className="space-y-2 text-sm text-orange-700">
               <div className="flex items-center">
                 <CheckCircle className="h-4 w-4 mr-2" />
-                Restores shop data from backup-data.json
+                Restores training data from backup-data.json
               </div>
               <div className="flex items-center">
                 <CheckCircle className="h-4 w-4 mr-2" />
@@ -315,7 +315,7 @@ export default function AdminBackup() {
               </div>
               <div className="flex items-center">
                 <CheckCircle className="h-4 w-4 mr-2" />
-                Updates shop records with new image URLs
+                Updates training records with new image URLs
               </div>
               <div className="flex items-center">
                 <RefreshCw className="h-4 w-4 mr-2" />
