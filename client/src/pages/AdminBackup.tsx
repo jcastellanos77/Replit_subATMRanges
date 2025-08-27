@@ -370,7 +370,7 @@ export default function AdminBackup() {
                 <Badge variant="default">Recommended</Badge>
               </div>
               <CardDescription className="text-blue-700">
-                Downloads all shop data and images in a ZIP file. Perfect for quarterly backups.
+                Downloads all training data and images in a ZIP file. Perfect for quarterly backups.
               </CardDescription>
             </CardHeader>
             <CardContent className="space-y-4">
