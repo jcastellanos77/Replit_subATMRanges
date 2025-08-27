@@ -40,7 +40,7 @@ export default function Navigation() {
                 ATM
               </Button>
             </SheetTrigger>
-            <SheetContent side="left" className="w-80 bg-black border-gray-800 [&>button]:text-white [&>button]:hover:text-atm-green-2 [&>button]:w-8 [&>button]:h-8 [&>button>svg]:w-6 [&>button>svg]:h-6">
+            <SheetContent side="left" className="w-80 bg-black/10 border-gray-800 [&>button]:text-white [&>button]:hover:text-atm-green-2 [&>button]:w-8 [&>button]:h-8 [&>button>svg]:w-6 [&>button>svg]:h-6">
               <SheetHeader className="sr-only">
                 <SheetTitle>Navigation Menu</SheetTitle>
                 <SheetDescription>Main navigation menu with ATM sections</SheetDescription>
