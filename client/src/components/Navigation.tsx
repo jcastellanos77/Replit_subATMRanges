@@ -53,7 +53,7 @@ export default function Navigation() {
                   <nav className="p-6">
                     <div className="space-y-4">
                       {menuItems.map((item) => (
-                        item.key === 'menu.stores' || item.key === 'menu.training' ? (
+                        item.key === 'menu.training' ? (
                           <div
                             key={item.key}
                             className="block text-gray-400 px-4 py-3 rounded-lg cursor-default"
@@ -75,6 +75,9 @@ export default function Navigation() {
                               if (item.key === 'menu.main') {
                                 e.preventDefault();
                                 window.location.href = 'https://alianzatiradoresmx.org';
+                              } else if (item.key === 'menu.stores') {
+                                e.preventDefault();
+                                window.location.href = 'https://stores.alianzatiradoresmx.org/';
                               }
                             }}
                           >
