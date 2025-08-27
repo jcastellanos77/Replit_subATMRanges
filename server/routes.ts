@@ -5,6 +5,7 @@ import { insertShopSchema, updateShopSchema, insertUserSchema, changePasswordSch
 import bcrypt from "bcryptjs";
 import { requireAuth } from "./auth";
 import { ObjectStorageService, ObjectNotFoundError } from "./objectStorage";
+import { BackupService } from "./backup";
 import { z } from "zod";
 
 const filtersSchema = z.object({
@@ -355,6 +356,46 @@ export async function registerRoutes(app: Express): Promise<Server> {
     } catch (error) {
       console.error("Error resetting password:", error);
       res.status(500).json({ message: "Error resetting password" });
+    }
+  });
+
+  // === BACKUP ROUTES (Admin only) ===
+  
+  // Get backup statistics
+  app.get("/api/admin/backup/stats", requireAuth, async (req, res) => {
+    try {
+      const backupService = new BackupService();
+      const stats = await backupService.getBackupStats();
+      res.json(stats);
+    } catch (error) {
+      console.error("Error getting backup stats:", error);
+      res.status(500).json({ message: "Error getting backup statistics" });
+    }
+  });
+
+  // Create full backup (data + images)
+  app.post("/api/admin/backup/full", requireAuth, async (req, res) => {
+    try {
+      const backupService = new BackupService();
+      await backupService.createFullBackup(res);
+    } catch (error) {
+      console.error("Error creating full backup:", error);
+      if (!res.headersSent) {
+        res.status(500).json({ message: "Error creating full backup" });
+      }
+    }
+  });
+
+  // Create data-only backup (JSON only)
+  app.post("/api/admin/backup/data", requireAuth, async (req, res) => {
+    try {
+      const backupService = new BackupService();
+      await backupService.createDataBackup(res);
+    } catch (error) {
+      console.error("Error creating data backup:", error);
+      if (!res.headersSent) {
+        res.status(500).json({ message: "Error creating data backup" });
+      }
     }
   });
 

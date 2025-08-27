@@ -11,6 +11,7 @@ import AdminDashboard from "@/pages/AdminDashboard";
 import AdminShopNew from "@/pages/AdminShopNew";
 import AdminShopEdit from "@/pages/AdminShopEdit";
 import AdminUsers from "@/pages/AdminUsers";
+import AdminBackup from "@/pages/AdminBackup";
 import NotFound from "@/pages/not-found";
 
 function ProtectedAdminRoute({ component: Component }: { component: React.ComponentType }) {
@@ -41,6 +42,7 @@ function Router() {
       <Route path="/admin/shops/new" component={() => <ProtectedAdminRoute component={AdminShopNew} />} />
       <Route path="/admin/shops/edit/:id" component={() => <ProtectedAdminRoute component={AdminShopEdit} />} />
       <Route path="/admin/users" component={() => <ProtectedAdminRoute component={AdminUsers} />} />
+      <Route path="/admin/backup" component={() => <ProtectedAdminRoute component={AdminBackup} />} />
       <Route component={NotFound} />
     </Switch>
   );

@@ -18,7 +18,8 @@ import {
   Globe,
   LogOut,
   Shield,
-  Users 
+  Users,
+  Download 
 } from 'lucide-react';
 
 type Shop = {
@@ -173,6 +174,14 @@ export default function AdminDashboard() {
         <div className="flex justify-between items-center mb-6">
           <h2 className="text-2xl font-bold text-gray-900">Shop Management</h2>
           <div className="flex space-x-3">
+            <Button
+              variant="outline"
+              onClick={() => setLocation('/admin/backup')}
+              data-testid="button-backup"
+            >
+              <Download className="h-4 w-4 mr-2" />
+              Backup Data
+            </Button>
             <Button
               variant="outline"
               onClick={() => setLocation('/admin/users')}
