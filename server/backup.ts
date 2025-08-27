@@ -68,19 +68,17 @@ export class BackupService {
    * Creates a complete backup including data and images
    */
   async createFullBackup(res: Response): Promise<void> {
-    const timestamp = new Date().toISOString().replace(/[:.]/g, '-');
-    const backupDir = `/tmp/backup-${timestamp}`;
-    
     try {
-      // Create backup directory
+      const shops = await storage.getShops();
+      const timestamp = new Date().toISOString().replace(/[:.]/g, '-');
+      const backupDir = `/tmp/backup-${timestamp}`;
+      
+      // Create directories
       await mkdir(backupDir, { recursive: true });
+      await mkdir(path.join(backupDir, 'images'), { recursive: true });
       await mkdir(path.join(backupDir, 'images', 'logos'), { recursive: true });
       await mkdir(path.join(backupDir, 'images', 'maps'), { recursive: true });
 
-      // Get all shop data
-      const shops = await storage.getShops();
-      
-      // Create backup metadata
       const backupData: BackupData = {
         metadata: {
           timestamp: new Date().toISOString(),
@@ -98,19 +96,27 @@ export class BackupService {
       // Download images for each shop
       for (const shop of shops) {
         try {
-          // Download logo if it's not a FontAwesome icon
-          if (shop.logo && !shop.logo.startsWith('fas ') && !shop.logo.startsWith('fab ')) {
-            const logoPath = await this.downloadImage(shop.logo, path.join(backupDir, 'images', 'logos'), `${shop.id}-logo`);
-            if (logoPath) {
-              backupData.images.logos[shop.id] = logoPath;
+          // Download logo if it exists
+          if (shop.logo && shop.logo !== 'fa-store') {
+            const logoFilename = await this.downloadImage(
+              shop.logo, 
+              path.join(backupDir, 'images', 'logos'), 
+              `${shop.id}_logo`
+            );
+            if (logoFilename) {
+              backupData.images.logos[shop.id] = `images/logos/${logoFilename}`;
             }
           }
 
-          // Download map image
+          // Download map image if it exists
           if (shop.mapImageUrl) {
-            const mapPath = await this.downloadImage(shop.mapImageUrl, path.join(backupDir, 'images', 'maps'), `${shop.id}-map`);
-            if (mapPath) {
-              backupData.images.maps[shop.id] = mapPath;
+            const mapFilename = await this.downloadImage(
+              shop.mapImageUrl, 
+              path.join(backupDir, 'images', 'maps'), 
+              `${shop.id}_map`
+            );
+            if (mapFilename) {
+              backupData.images.maps[shop.id] = `images/maps/${mapFilename}`;
             }
           }
         } catch (error) {
@@ -189,18 +195,18 @@ Images are organized by shop ID with appropriate file extensions.
   }
 
   /**
-   * Downloads an image from URL or object storage
+   * Downloads an image from URL or object storage or local file
    */
   private async downloadImage(imageUrl: string, destinationDir: string, filename: string): Promise<string | null> {
     try {
       let imageBuffer: Buffer;
       let fileExtension = '.jpg'; // default
 
-      if (imageUrl.startsWith('/objects/') || imageUrl.startsWith('http')) {
-        // Handle object storage or external URLs
-        const response = await fetch(imageUrl.startsWith('/') ? `http://localhost:5000${imageUrl}` : imageUrl);
+      if (imageUrl.startsWith('/objects/')) {
+        // Handle object storage URLs
+        const response = await fetch(`http://localhost:5000${imageUrl}`);
         if (!response.ok) {
-          throw new Error(`Failed to fetch image: ${response.statusText}`);
+          throw new Error(`Failed to fetch object storage image: ${response.statusText}`);
         }
         
         imageBuffer = Buffer.from(await response.arrayBuffer());
@@ -214,8 +220,25 @@ Images are organized by shop ID with appropriate file extensions.
         else if (imageUrl.includes('.gif')) fileExtension = '.gif';
         else if (imageUrl.includes('.webp')) fileExtension = '.webp';
         
+      } else if (imageUrl.startsWith('/')) {
+        // Handle local file references (e.g., /valhalla-logo.jpg)
+        const localFilePath = path.join(process.cwd(), 'client', 'public', imageUrl.substring(1));
+        
+        try {
+          imageBuffer = await readFile(localFilePath);
+          
+          // Determine file extension from the original filename
+          const originalExt = path.extname(imageUrl).toLowerCase();
+          if (originalExt) {
+            fileExtension = originalExt;
+          }
+        } catch (error) {
+          console.warn(`Local file not found: ${localFilePath}`);
+          return null;
+        }
+        
       } else if (imageUrl.startsWith('http')) {
-        // Handle external URLs (like Unsplash)
+        // Handle external URLs
         const response = await fetch(imageUrl);
         if (!response.ok) {
           throw new Error(`Failed to fetch external image: ${response.statusText}`);
@@ -223,50 +246,59 @@ Images are organized by shop ID with appropriate file extensions.
         
         imageBuffer = Buffer.from(await response.arrayBuffer());
         
-        // Determine extension from URL or content-type
-        if (imageUrl.includes('.png')) fileExtension = '.png';
+        // Try to determine file extension from content-type or URL
+        const contentType = response.headers.get('content-type');
+        if (contentType?.includes('png')) fileExtension = '.png';
+        else if (contentType?.includes('gif')) fileExtension = '.gif';
+        else if (contentType?.includes('webp')) fileExtension = '.webp';
+        else if (imageUrl.includes('.png')) fileExtension = '.png';
         else if (imageUrl.includes('.gif')) fileExtension = '.gif';
         else if (imageUrl.includes('.webp')) fileExtension = '.webp';
+        
       } else {
-        return null; // Skip non-downloadable images
+        // Unsupported image URL format
+        console.warn(`Unsupported image URL format: ${imageUrl}`);
+        return null;
       }
 
-      const finalPath = path.join(destinationDir, `${filename}${fileExtension}`);
-      await writeFile(finalPath, imageBuffer);
+      // Save the image file
+      const finalFilename = filename + fileExtension;
+      const outputPath = path.join(destinationDir, finalFilename);
+      await writeFile(outputPath, imageBuffer);
       
-      return `images/${path.basename(destinationDir)}/${filename}${fileExtension}`;
+      return finalFilename;
     } catch (error) {
-      console.error(`Failed to download image ${imageUrl}:`, error);
+      console.error(`Error downloading image ${imageUrl}:`, error);
       return null;
     }
   }
 
   /**
-   * Creates a ZIP file and streams it to the response
+   * Creates a ZIP response and streams it
    */
   private async createZipResponse(res: Response, sourceDir: string, filename: string): Promise<void> {
     return new Promise((resolve, reject) => {
-      const archive = archiver('zip', {
-        zlib: { level: 9 } // Maximum compression
-      });
-
+      // Set response headers
       res.setHeader('Content-Type', 'application/zip');
       res.setHeader('Content-Disposition', `attachment; filename="${filename}"`);
-
+      
+      // Create archive
+      const archive = archiver('zip', { zlib: { level: 9 } });
+      
       archive.pipe(res);
-
+      
       archive.directory(sourceDir, false);
-
+      
+      archive.finalize();
+      
+      archive.on('end', () => {
+        resolve();
+      });
+      
       archive.on('error', (err: Error) => {
         console.error('Archive error:', err);
         reject(err);
       });
-
-      archive.on('end', () => {
-        resolve();
-      });
-
-      archive.finalize();
     });
   }
 
@@ -281,17 +313,14 @@ Images are organized by shop ID with appropriate file extensions.
   }> {
     const shops = await storage.getShops();
     
-    const imagesWithLogos = shops.filter(shop => 
-      shop.logo && !shop.logo.startsWith('fas ') && !shop.logo.startsWith('fab ')
-    ).length;
-    
+    const imagesWithLogos = shops.filter(shop => shop.logo && shop.logo !== 'fa-store').length;
     const imagesWithMaps = shops.filter(shop => shop.mapImageUrl).length;
     
-    // Rough estimation: 50KB per shop data + 100KB per logo + 200KB per map
+    // Rough estimate: 100KB per shop data + 200KB per logo + 500KB per map
     const estimatedSize = Math.round(
-      (shops.length * 0.05) + 
-      (imagesWithLogos * 0.1) + 
-      (imagesWithMaps * 0.2)
+      (shops.length * 0.1) + 
+      (imagesWithLogos * 0.2) + 
+      (imagesWithMaps * 0.5)
     );
 
     return {
