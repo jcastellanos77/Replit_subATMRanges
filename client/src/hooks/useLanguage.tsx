@@ -21,10 +21,10 @@ const translations = {
     // Hero Section
     'hero.title': 'ATM',
     'hero.subtitle': 'Entrenamiento',
-    'hero.description': 'Directorio de tiendas especializadas certificadas por ATM',
+    'hero.description': 'Directorio de entrenamiento especializado certificado por ATM',
 
     // Search and Filters
-    'search.placeholder': 'Buscar tiendas...',
+    'search.placeholder': 'Buscar entrenamiento...',
     'filter.category.all': 'Todas las categorías',
     'filter.city.all': 'Todas las ciudades',
     'filter.state.all': 'Todos los estados',
@@ -34,7 +34,7 @@ const translations = {
     'filter.state.label': 'Estado',
 
     // No Results
-    'no-results.title': 'No se encontraron tiendas',
+    'no-results.title': 'No se encontró entrenamiento',
     'no-results.description': 'Intenta ajustar tus filtros de búsqueda',
 
     // Footer
@@ -77,10 +77,10 @@ const translations = {
     // Hero Section
     'hero.title': 'ATM',
     'hero.subtitle': 'Training',
-    'hero.description': 'Directory of ATM certified specialized stores',
+    'hero.description': 'Directory of ATM certified specialized training programs',
 
     // Search and Filters
-    'search.placeholder': 'Search stores...',
+    'search.placeholder': 'Search training...',
     'filter.category.all': 'All categories',
     'filter.city.all': 'All cities',
     'filter.state.all': 'All states',
@@ -90,7 +90,7 @@ const translations = {
     'filter.state.label': 'State',
 
     // No Results
-    'no-results.title': 'No stores found',
+    'no-results.title': 'No training found',
     'no-results.description': 'Try adjusting your search filters',
 
     // Footer
