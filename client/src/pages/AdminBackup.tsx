@@ -237,7 +237,7 @@ export default function AdminBackup() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
           <Card>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">Total Shops</CardTitle>
+              <CardTitle className="text-sm font-medium">Total Training Centers</CardTitle>
               <Database className="h-4 w-4 text-muted-foreground" />
             </CardHeader>
             <CardContent>
@@ -299,8 +299,8 @@ export default function AdminBackup() {
             <Alert>
               <AlertCircle className="h-4 w-4" />
               <AlertDescription>
-                <strong>Warning:</strong> This will add all shops from the backup to your current database. 
-                Duplicate shops may be created if they already exist.
+                <strong>Warning:</strong> This will add all training centers from the backup to your current database. 
+                Duplicate training centers may be created if they already exist.
               </AlertDescription>
             </Alert>
             
@@ -497,11 +497,11 @@ export default function AdminBackup() {
               <div>
                 <p><strong>What's included in backups:</strong></p>
                 <ul className="list-disc list-inside space-y-1 ml-4">
-                  <li>Complete shop information (names, addresses, contacts, categories)</li>
+                  <li>Complete training center information (names, addresses, contacts, categories)</li>
                   <li>Geographic data (coordinates, map links)</li>
                   <li>Verification status and metadata</li>
                   <li>Logo images (when available, excludes FontAwesome icons)</li>
-                  <li>Map images from all shops</li>
+                  <li>Map images from all training centers</li>
                   <li>Backup metadata and restoration instructions</li>
                 </ul>
               </div>
@@ -510,7 +510,7 @@ export default function AdminBackup() {
                 <p><strong>Restoration process:</strong></p>
                 <ul className="list-disc list-inside space-y-1 ml-4">
                   <li>Upload a backup ZIP file using the restore section above</li>
-                  <li>All shop data will be imported (duplicates may occur)</li>
+                  <li>All training center data will be imported (duplicates may occur)</li>
                   <li>Images are re-uploaded to object storage with new URLs</li>
                   <li>Process is automatic with progress feedback</li>
                 </ul>
