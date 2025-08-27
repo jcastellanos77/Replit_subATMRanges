@@ -224,8 +224,8 @@ export default function AdminBackup() {
                 Back to Dashboard
               </Button>
               <div>
-                <h1 className="text-2xl font-bold text-gray-900">Shop Data Backup</h1>
-                <p className="text-gray-600">Export your shop directory data and images</p>
+                <h1 className="text-2xl font-bold text-gray-900">Training Data Backup</h1>
+                <p className="text-gray-600">Export your training directory data and images</p>
               </div>
             </div>
           </div>
