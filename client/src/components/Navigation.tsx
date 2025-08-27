@@ -53,7 +53,7 @@ export default function Navigation() {
                   <nav className="p-6">
                     <div className="space-y-4">
                       {menuItems.map((item) => (
-                        item.key === 'menu.stores' ? (
+                        item.key === 'menu.stores' || item.key === 'menu.training' ? (
                           <div
                             key={item.key}
                             className="block text-gray-400 px-4 py-3 rounded-lg cursor-default"
@@ -65,7 +65,7 @@ export default function Navigation() {
                           <a
                             key={item.key}
                             href={
-                              item.key === 'menu.main' || item.key === 'menu.training' ? '#' :
+                              item.key === 'menu.main' ? '#' :
                               `#${item.key.split('.')[1]}`
                             }
                             className="block text-white hover:text-atm-green-2 hover:bg-gray-900 px-4 py-3 rounded-lg transition-colors duration-200"
@@ -75,9 +75,6 @@ export default function Navigation() {
                               if (item.key === 'menu.main') {
                                 e.preventDefault();
                                 window.location.href = 'https://alianzatiradoresmx.org';
-                              } else if (item.key === 'menu.training') {
-                                e.preventDefault();
-                                window.location.href = 'https://sipde.alianzatiradoresmx.org';
                               }
                             }}
                           >
