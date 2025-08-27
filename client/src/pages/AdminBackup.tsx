@@ -377,7 +377,7 @@ export default function AdminBackup() {
               <div className="space-y-2 text-sm text-blue-700">
                 <div className="flex items-center">
                   <CheckCircle className="h-4 w-4 mr-2" />
-                  Complete shop database (JSON format)
+                  Complete training database (JSON format)
                 </div>
                 <div className="flex items-center">
                   <CheckCircle className="h-4 w-4 mr-2" />
