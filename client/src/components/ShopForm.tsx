@@ -490,7 +490,7 @@ export default function ShopForm({ shop, onSuccess }: ShopFormProps) {
           <Card>
             <CardHeader>
               <CardTitle>Verification</CardTitle>
-              <CardDescription>Shop verification status</CardDescription>
+              <CardDescription>Training verification status</CardDescription>
             </CardHeader>
             <CardContent>
               <div className="flex items-center space-x-2">
