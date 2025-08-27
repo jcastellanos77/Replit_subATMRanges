@@ -356,7 +356,7 @@ export default function AdminUsers() {
                   
                   <div className="flex items-center text-gray-500">
                     <Shield className="h-4 w-4 mr-2" />
-                    Can manage shops and users
+                    Can manage training and users
                   </div>
                 </div>
                 
