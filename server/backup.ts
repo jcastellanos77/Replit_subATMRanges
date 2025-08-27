@@ -1,14 +1,21 @@
 import { storage } from "./storage";
 import { ObjectStorageService } from "./objectStorage";
 import archiver from "archiver";
-import { Response } from "express";
+import { Response, Request } from "express";
 import path from "path";
 import fs from "fs";
 import { promisify } from "util";
+import yauzl from "yauzl";
+import multer from "multer";
 
 const mkdir = promisify(fs.mkdir);
 const writeFile = promisify(fs.writeFile);
+const readFile = promisify(fs.readFile);
 const access = promisify(fs.access);
+const unlink = promisify(fs.unlink);
+const rmdir = promisify(fs.rmdir);
+const readdir = promisify(fs.readdir);
+const stat = promisify(fs.stat);
 
 export interface BackupData {
   metadata: {
@@ -23,6 +30,32 @@ export interface BackupData {
     maps: { [shopId: string]: string };
   };
 }
+
+export interface RestoreResult {
+  success: boolean;
+  message: string;
+  stats: {
+    shopsRestored: number;
+    logosRestored: number;
+    mapsRestored: number;
+    errors: string[];
+  };
+}
+
+// Configure multer for file uploads
+export const upload = multer({
+  dest: '/tmp/uploads/',
+  limits: {
+    fileSize: 100 * 1024 * 1024, // 100MB limit
+  },
+  fileFilter: (req, file, cb) => {
+    if (file.mimetype === 'application/zip' || file.mimetype === 'application/x-zip-compressed') {
+      cb(null, true);
+    } else {
+      cb(new Error('Only ZIP files are allowed'));
+    }
+  },
+});
 
 export class BackupService {
   private objectStorageService: ObjectStorageService;
@@ -267,5 +300,326 @@ Images are organized by shop ID with appropriate file extensions.
       imagesWithMaps,
       estimatedSize: estimatedSize > 1 ? `${estimatedSize}MB` : `${Math.round(estimatedSize * 1024)}KB`
     };
+  }
+
+  /**
+   * Restores shop data and images from a backup ZIP file
+   */
+  async restoreFromZip(zipFilePath: string): Promise<RestoreResult> {
+    const extractDir = `/tmp/restore-${Date.now()}`;
+    
+    const result: RestoreResult = {
+      success: false,
+      message: '',
+      stats: {
+        shopsRestored: 0,
+        logosRestored: 0,
+        mapsRestored: 0,
+        errors: []
+      }
+    };
+
+    try {
+      // Extract ZIP file
+      await this.extractZipFile(zipFilePath, extractDir);
+      
+      // Parse backup data
+      const backupData = await this.parseBackupData(path.join(extractDir, 'backup-data.json'));
+      
+      if (!backupData) {
+        throw new Error('Invalid backup file: backup-data.json not found or corrupted');
+      }
+
+      // Restore images to object storage
+      const imageResults = await this.uploadImagesFromBackup(extractDir, backupData);
+      result.stats.logosRestored = imageResults.logosUploaded;
+      result.stats.mapsRestored = imageResults.mapsUploaded;
+      result.stats.errors.push(...imageResults.errors);
+
+      // Update shop data with new image URLs
+      await this.updateShopImageUrls(backupData, imageResults.imageMapping);
+
+      // Restore shops to database
+      const shopsRestored = await this.restoreShopsToDatabase(backupData.shops);
+      result.stats.shopsRestored = shopsRestored;
+
+      result.success = true;
+      result.message = `Successfully restored ${shopsRestored} shops with ${imageResults.logosUploaded} logos and ${imageResults.mapsUploaded} maps`;
+      
+    } catch (error) {
+      console.error('Restoration failed:', error);
+      result.message = error instanceof Error ? error.message : 'Unknown error during restoration';
+      result.stats.errors.push(result.message);
+    } finally {
+      // Cleanup temporary files
+      await this.cleanupDirectory(extractDir);
+      await this.cleanupFile(zipFilePath);
+    }
+
+    return result;
+  }
+
+  /**
+   * Extracts a ZIP file to a destination directory
+   */
+  private async extractZipFile(zipFilePath: string, extractDir: string): Promise<void> {
+    await mkdir(extractDir, { recursive: true });
+    
+    return new Promise((resolve, reject) => {
+      yauzl.open(zipFilePath, { lazyEntries: true }, (err, zipfile) => {
+        if (err) {
+          reject(err);
+          return;
+        }
+        
+        if (!zipfile) {
+          reject(new Error('Failed to open ZIP file'));
+          return;
+        }
+
+        zipfile.readEntry();
+        
+        zipfile.on('entry', (entry) => {
+          if (/\/$/.test(entry.fileName)) {
+            // Directory entry
+            const dirPath = path.join(extractDir, entry.fileName);
+            mkdir(dirPath, { recursive: true }).then(() => {
+              zipfile.readEntry();
+            }).catch(reject);
+          } else {
+            // File entry
+            zipfile.openReadStream(entry, (err, readStream) => {
+              if (err) {
+                reject(err);
+                return;
+              }
+              
+              if (!readStream) {
+                zipfile.readEntry();
+                return;
+              }
+
+              const filePath = path.join(extractDir, entry.fileName);
+              const fileDir = path.dirname(filePath);
+              
+              mkdir(fileDir, { recursive: true }).then(() => {
+                const writeStream = fs.createWriteStream(filePath);
+                readStream.pipe(writeStream);
+                writeStream.on('close', () => {
+                  zipfile.readEntry();
+                });
+                writeStream.on('error', reject);
+              }).catch(reject);
+            });
+          }
+        });
+        
+        zipfile.on('end', () => {
+          resolve();
+        });
+        
+        zipfile.on('error', reject);
+      });
+    });
+  }
+
+  /**
+   * Parses backup data from JSON file
+   */
+  private async parseBackupData(jsonFilePath: string): Promise<BackupData | null> {
+    try {
+      const jsonContent = await readFile(jsonFilePath, 'utf-8');
+      return JSON.parse(jsonContent) as BackupData;
+    } catch (error) {
+      console.error('Failed to parse backup data:', error);
+      return null;
+    }
+  }
+
+  /**
+   * Uploads images from backup to object storage
+   */
+  private async uploadImagesFromBackup(extractDir: string, backupData: BackupData): Promise<{
+    logosUploaded: number;
+    mapsUploaded: number;
+    imageMapping: { [oldPath: string]: string };
+    errors: string[];
+  }> {
+    const result = {
+      logosUploaded: 0,
+      mapsUploaded: 0,
+      imageMapping: {} as { [oldPath: string]: string },
+      errors: [] as string[]
+    };
+
+    // Upload logos
+    const logosDir = path.join(extractDir, 'images', 'logos');
+    if (await this.directoryExists(logosDir)) {
+      const logoFiles = await readdir(logosDir);
+      for (const logoFile of logoFiles) {
+        try {
+          const logoPath = path.join(logosDir, logoFile);
+          const uploadUrl = await this.objectStorageService.getObjectEntityUploadURL();
+          
+          // Upload file to object storage
+          const imageBuffer = await readFile(logoPath);
+          const uploadResponse = await fetch(uploadUrl, {
+            method: 'PUT',
+            body: imageBuffer,
+            headers: {
+              'Content-Type': 'image/jpeg'
+            }
+          });
+          
+          if (uploadResponse.ok) {
+            const objectPath = this.extractObjectPathFromUrl(uploadUrl);
+            result.imageMapping[`images/logos/${logoFile}`] = objectPath;
+            result.logosUploaded++;
+          } else {
+            result.errors.push(`Failed to upload logo: ${logoFile}`);
+          }
+        } catch (error) {
+          result.errors.push(`Error uploading logo ${logoFile}: ${error instanceof Error ? error.message : 'Unknown error'}`);
+        }
+      }
+    }
+
+    // Upload maps
+    const mapsDir = path.join(extractDir, 'images', 'maps');
+    if (await this.directoryExists(mapsDir)) {
+      const mapFiles = await readdir(mapsDir);
+      for (const mapFile of mapFiles) {
+        try {
+          const mapPath = path.join(mapsDir, mapFile);
+          const uploadUrl = await this.objectStorageService.getObjectEntityUploadURL();
+          
+          // Upload file to object storage
+          const imageBuffer = await readFile(mapPath);
+          const uploadResponse = await fetch(uploadUrl, {
+            method: 'PUT',
+            body: imageBuffer,
+            headers: {
+              'Content-Type': 'image/jpeg'
+            }
+          });
+          
+          if (uploadResponse.ok) {
+            const objectPath = this.extractObjectPathFromUrl(uploadUrl);
+            result.imageMapping[`images/maps/${mapFile}`] = objectPath;
+            result.mapsUploaded++;
+          } else {
+            result.errors.push(`Failed to upload map: ${mapFile}`);
+          }
+        } catch (error) {
+          result.errors.push(`Error uploading map ${mapFile}: ${error instanceof Error ? error.message : 'Unknown error'}`);
+        }
+      }
+    }
+
+    return result;
+  }
+
+  /**
+   * Updates shop data with new image URLs from object storage
+   */
+  private async updateShopImageUrls(backupData: BackupData, imageMapping: { [oldPath: string]: string }): Promise<void> {
+    for (const shop of backupData.shops) {
+      // Update logo URL
+      if (shop.id && backupData.images.logos[shop.id]) {
+        const oldLogoPath = backupData.images.logos[shop.id];
+        if (imageMapping[oldLogoPath]) {
+          shop.logo = imageMapping[oldLogoPath];
+        }
+      }
+      
+      // Update map URL
+      if (shop.id && backupData.images.maps[shop.id]) {
+        const oldMapPath = backupData.images.maps[shop.id];
+        if (imageMapping[oldMapPath]) {
+          shop.mapImageUrl = imageMapping[oldMapPath];
+        }
+      }
+    }
+  }
+
+  /**
+   * Restores shop data to the database
+   */
+  private async restoreShopsToDatabase(shops: any[]): Promise<number> {
+    let restoredCount = 0;
+    
+    for (const shop of shops) {
+      try {
+        // Create new shop (this will generate a new ID)
+        const { id, ...shopData } = shop;
+        await storage.createShop(shopData);
+        restoredCount++;
+      } catch (error) {
+        console.error(`Failed to restore shop ${shop.name}:`, error);
+      }
+    }
+    
+    return restoredCount;
+  }
+
+  /**
+   * Extracts object path from upload URL
+   */
+  private extractObjectPathFromUrl(uploadUrl: string): string {
+    // Extract the object path from the signed URL
+    const url = new URL(uploadUrl);
+    const pathParts = url.pathname.split('/');
+    const bucketName = pathParts[1];
+    const objectName = pathParts.slice(2).join('/');
+    return `/objects/uploads/${objectName.split('/').pop()}`;
+  }
+
+  /**
+   * Checks if a directory exists
+   */
+  private async directoryExists(dirPath: string): Promise<boolean> {
+    try {
+      const stats = await stat(dirPath);
+      return stats.isDirectory();
+    } catch {
+      return false;
+    }
+  }
+
+  /**
+   * Recursively cleans up a directory
+   */
+  private async cleanupDirectory(dirPath: string): Promise<void> {
+    try {
+      if (await this.directoryExists(dirPath)) {
+        const files = await readdir(dirPath);
+        
+        for (const file of files) {
+          const filePath = path.join(dirPath, file);
+          const stats = await stat(filePath);
+          
+          if (stats.isDirectory()) {
+            await this.cleanupDirectory(filePath);
+          } else {
+            await unlink(filePath);
+          }
+        }
+        
+        await rmdir(dirPath);
+      }
+    } catch (error) {
+      console.error('Cleanup error:', error);
+    }
+  }
+
+  /**
+   * Cleans up a single file
+   */
+  private async cleanupFile(filePath: string): Promise<void> {
+    try {
+      await unlink(filePath);
+    } catch (error) {
+      console.error('File cleanup error:', error);
+    }
   }
 }

@@ -1,5 +1,5 @@
-import { useState } from "react";
-import { useQuery, useMutation } from "@tanstack/react-query";
+import { useState, useRef } from "react";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -16,7 +16,9 @@ import {
   AlertCircle,
   CheckCircle,
   FileText,
-  HardDrive 
+  HardDrive,
+  Upload,
+  RefreshCw 
 } from "lucide-react";
 
 interface BackupStats {
@@ -29,7 +31,10 @@ interface BackupStats {
 export default function AdminBackup() {
   const [, setLocation] = useLocation();
   const [backupInProgress, setBackupInProgress] = useState<'full' | 'data' | null>(null);
+  const [restoreInProgress, setRestoreInProgress] = useState(false);
+  const fileInputRef = useRef<HTMLInputElement>(null);
   const { toast } = useToast();
+  const queryClient = useQueryClient();
 
   const { data: stats, isLoading } = useQuery<BackupStats>({
     queryKey: ['/api/admin/backup/stats'],
@@ -121,6 +126,77 @@ export default function AdminBackup() {
     },
   });
 
+  const restoreBackupMutation = useMutation({
+    mutationFn: async (file: File) => {
+      const formData = new FormData();
+      formData.append('backupFile', file);
+      
+      const response = await fetch('/api/admin/backup/restore', {
+        method: 'POST',
+        credentials: 'include',
+        body: formData,
+      });
+      
+      if (!response.ok) {
+        const error = await response.json();
+        throw new Error(error.message || 'Failed to restore backup');
+      }
+      
+      return response.json();
+    },
+    onMutate: () => {
+      setRestoreInProgress(true);
+    },
+    onSuccess: (data) => {
+      toast({
+        title: "✅ Backup Restored Successfully",
+        description: `${data.message}. Refreshing data...`,
+      });
+      
+      // Refresh all shop data
+      queryClient.invalidateQueries({ queryKey: ['/api/shops'] });
+      queryClient.invalidateQueries({ queryKey: ['/api/admin/backup/stats'] });
+    },
+    onError: (error) => {
+      toast({
+        title: "❌ Restore Failed",
+        description: error.message || "Failed to restore backup",
+        variant: "destructive",
+      });
+    },
+    onSettled: () => {
+      setRestoreInProgress(false);
+      if (fileInputRef.current) {
+        fileInputRef.current.value = '';
+      }
+    },
+  });
+
+  const handleFileSelect = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (file) {
+      if (file.type !== 'application/zip' && file.type !== 'application/x-zip-compressed') {
+        toast({
+          title: "Invalid File Type",
+          description: "Please select a ZIP file",
+          variant: "destructive",
+        });
+        return;
+      }
+      
+      if (file.size > 100 * 1024 * 1024) { // 100MB
+        toast({
+          title: "File Too Large",
+          description: "Maximum file size is 100MB",
+          variant: "destructive",
+        });
+        return;
+      }
+      
+      restoreBackupMutation.mutate(file);
+    }
+  };
+
   if (isLoading) {
     return (
       <div className="min-h-screen flex items-center justify-center">
@@ -208,6 +284,79 @@ export default function AdminBackup() {
           </Card>
         </div>
 
+        {/* Restore Section */}
+        <Card className="border-orange-200 bg-orange-50 mb-8">
+          <CardHeader>
+            <div className="flex items-center space-x-2">
+              <Upload className="h-5 w-5 text-orange-600" />
+              <CardTitle className="text-orange-900">Restore from Backup</CardTitle>
+            </div>
+            <CardDescription className="text-orange-700">
+              Upload a backup ZIP file to restore shop data and images to your database.
+            </CardDescription>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            <Alert>
+              <AlertCircle className="h-4 w-4" />
+              <AlertDescription>
+                <strong>Warning:</strong> This will add all shops from the backup to your current database. 
+                Duplicate shops may be created if they already exist.
+              </AlertDescription>
+            </Alert>
+            
+            <div className="space-y-2 text-sm text-orange-700">
+              <div className="flex items-center">
+                <CheckCircle className="h-4 w-4 mr-2" />
+                Restores shop data from backup-data.json
+              </div>
+              <div className="flex items-center">
+                <CheckCircle className="h-4 w-4 mr-2" />
+                Uploads logo and map images to object storage
+              </div>
+              <div className="flex items-center">
+                <CheckCircle className="h-4 w-4 mr-2" />
+                Updates shop records with new image URLs
+              </div>
+              <div className="flex items-center">
+                <RefreshCw className="h-4 w-4 mr-2" />
+                Automatically refreshes data after restore
+              </div>
+            </div>
+            
+            <div className="flex space-x-3">
+              <input
+                type="file"
+                accept=".zip,application/zip,application/x-zip-compressed"
+                onChange={handleFileSelect}
+                ref={fileInputRef}
+                className="hidden"
+                disabled={restoreInProgress}
+                data-testid="input-backup-file"
+              />
+              
+              <Button
+                variant="outline"
+                onClick={() => fileInputRef.current?.click()}
+                disabled={restoreInProgress}
+                className="border-orange-300 text-orange-700 hover:bg-orange-100"
+                data-testid="button-select-backup"
+              >
+                {restoreInProgress ? (
+                  <>
+                    <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-orange-600 mr-2"></div>
+                    Restoring...
+                  </>
+                ) : (
+                  <>
+                    <Upload className="h-4 w-4 mr-2" />
+                    Select Backup ZIP
+                  </>
+                )}
+              </Button>
+            </div>
+          </CardContent>
+        </Card>
+
         {/* Backup Options */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
           {/* Full Backup */}
@@ -250,7 +399,7 @@ export default function AdminBackup() {
               
               <Button
                 onClick={() => createFullBackupMutation.mutate()}
-                disabled={backupInProgress !== null}
+                disabled={backupInProgress !== null || restoreInProgress}
                 className="w-full"
                 data-testid="button-full-backup"
               >
@@ -307,7 +456,7 @@ export default function AdminBackup() {
               <Button
                 variant="outline"
                 onClick={() => createDataBackupMutation.mutate()}
-                disabled={backupInProgress !== null}
+                disabled={backupInProgress !== null || restoreInProgress}
                 className="w-full"
                 data-testid="button-data-backup"
               >
@@ -344,16 +493,28 @@ export default function AdminBackup() {
               </AlertDescription>
             </Alert>
             
-            <div className="mt-4 space-y-2 text-sm text-gray-600">
-              <p><strong>What's included in backups:</strong></p>
-              <ul className="list-disc list-inside space-y-1 ml-4">
-                <li>Complete shop information (names, addresses, contacts, categories)</li>
-                <li>Geographic data (coordinates, map links)</li>
-                <li>Verification status and metadata</li>
-                <li>Logo images (when available, excludes FontAwesome icons)</li>
-                <li>Map images from all shops</li>
-                <li>Backup metadata and restoration instructions</li>
-              </ul>
+            <div className="mt-4 space-y-4 text-sm text-gray-600">
+              <div>
+                <p><strong>What's included in backups:</strong></p>
+                <ul className="list-disc list-inside space-y-1 ml-4">
+                  <li>Complete shop information (names, addresses, contacts, categories)</li>
+                  <li>Geographic data (coordinates, map links)</li>
+                  <li>Verification status and metadata</li>
+                  <li>Logo images (when available, excludes FontAwesome icons)</li>
+                  <li>Map images from all shops</li>
+                  <li>Backup metadata and restoration instructions</li>
+                </ul>
+              </div>
+              
+              <div>
+                <p><strong>Restoration process:</strong></p>
+                <ul className="list-disc list-inside space-y-1 ml-4">
+                  <li>Upload a backup ZIP file using the restore section above</li>
+                  <li>All shop data will be imported (duplicates may occur)</li>
+                  <li>Images are re-uploaded to object storage with new URLs</li>
+                  <li>Process is automatic with progress feedback</li>
+                </ul>
+              </div>
             </div>
           </CardContent>
         </Card>

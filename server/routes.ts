@@ -5,7 +5,7 @@ import { insertShopSchema, updateShopSchema, insertUserSchema, changePasswordSch
 import bcrypt from "bcryptjs";
 import { requireAuth } from "./auth";
 import { ObjectStorageService, ObjectNotFoundError } from "./objectStorage";
-import { BackupService } from "./backup";
+import { BackupService, upload } from "./backup";
 import { z } from "zod";
 
 const filtersSchema = z.object({
@@ -396,6 +396,34 @@ export async function registerRoutes(app: Express): Promise<Server> {
       if (!res.headersSent) {
         res.status(500).json({ message: "Error creating data backup" });
       }
+    }
+  });
+
+  // Restore from backup ZIP file
+  app.post("/api/admin/backup/restore", requireAuth, upload.single('backupFile'), async (req, res) => {
+    try {
+      if (!req.file) {
+        return res.status(400).json({ message: "No backup file provided" });
+      }
+
+      const backupService = new BackupService();
+      const result = await backupService.restoreFromZip(req.file.path);
+      
+      if (result.success) {
+        res.json({
+          message: result.message,
+          stats: result.stats
+        });
+      } else {
+        res.status(400).json({
+          message: result.message,
+          errors: result.stats.errors
+        });
+      }
+    } catch (error) {
+      console.error("Error restoring backup:", error);
+      const errorMessage = error instanceof Error ? error.message : 'Unknown error';
+      res.status(500).json({ message: "Error restoring backup", error: errorMessage });
     }
   });
 
