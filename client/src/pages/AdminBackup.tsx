@@ -426,7 +426,7 @@ export default function AdminBackup() {
                 <CardTitle>Data Only Backup</CardTitle>
               </div>
               <CardDescription>
-                Downloads only the shop data as JSON. Smaller file size, no images included.
+                Downloads only the training data as JSON. Smaller file size, no images included.
               </CardDescription>
             </CardHeader>
             <CardContent className="space-y-4">
