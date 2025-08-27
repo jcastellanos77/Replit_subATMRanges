@@ -292,7 +292,7 @@ export default function AdminBackup() {
               <CardTitle className="text-orange-900">Restore from Backup</CardTitle>
             </div>
             <CardDescription className="text-orange-700">
-              Upload a backup ZIP file to restore shop data and images to your database.
+              Upload a backup ZIP file to restore training data and images to your database.
             </CardDescription>
           </CardHeader>
           <CardContent className="space-y-4">
