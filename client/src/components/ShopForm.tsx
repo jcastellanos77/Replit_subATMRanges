@@ -435,7 +435,7 @@ export default function ShopForm({ shop, onSuccess }: ShopFormProps) {
                 </div>
 
                 <div className="space-y-3">
-                  <Label>Store Map/Photo</Label>
+                  <Label>Training Map/Photo</Label>
                   <div className="border-2 border-dashed border-gray-300 rounded-lg p-4 text-center">
                     {mapFile ? (
                       <div className="space-y-2">
