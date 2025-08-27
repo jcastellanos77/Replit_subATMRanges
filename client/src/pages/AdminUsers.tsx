@@ -157,7 +157,7 @@ export default function AdminUsers() {
               </Button>
               <div>
                 <h1 className="text-2xl font-bold text-gray-900">Admin User Management</h1>
-                <p className="text-gray-600">Manage administrator access to the shop directory</p>
+                <p className="text-gray-600">Manage administrator access to the training directory</p>
               </div>
             </div>
             <div className="flex items-center gap-3">
