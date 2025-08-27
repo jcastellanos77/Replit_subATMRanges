@@ -11,6 +11,12 @@ export async function initializeDatabase() {
     return;
   }
 
+  // Check if we should skip initialization (set environment variable to prevent re-initialization)
+  if (process.env.SKIP_DB_INIT === 'true') {
+    console.log("Database initialization skipped (SKIP_DB_INIT=true)");
+    return;
+  }
+
   // Initialize with Damotlav store as requested
   const damotlavShop: InsertShop = {
     name: "Damotlav",

@@ -53,12 +53,12 @@ app.use((req, res, next) => {
 });
 
 (async () => {
-  // Initialize database with sample data
-  try {
-    await initializeDatabase();
-  } catch (error) {
-    console.error("Failed to initialize database:", error);
-  }
+  // Initialize database with sample data - COMMENTED OUT to prevent auto-re-adding deleted shops
+  // try {
+  //   await initializeDatabase();
+  // } catch (error) {
+  //   console.error("Failed to initialize database:", error);
+  // }
 
   // Setup authentication routes
   setupAuthRoutes(app);
