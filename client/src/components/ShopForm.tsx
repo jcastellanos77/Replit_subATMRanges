@@ -92,8 +92,8 @@ export default function ShopForm({ shop, onSuccess }: ShopFormProps) {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['/api/shops'] });
       toast({
-        title: shop?.id ? 'Shop Updated' : 'Shop Created',
-        description: `Shop has been successfully ${shop?.id ? 'updated' : 'created'}.`,
+        title: shop?.id ? 'Training Updated' : 'Training Created',
+        description: `Training has been successfully ${shop?.id ? 'updated' : 'created'}.`,
       });
       onSuccess?.();
       setLocation('/admin');
@@ -101,7 +101,7 @@ export default function ShopForm({ shop, onSuccess }: ShopFormProps) {
     onError: (error) => {
       toast({
         title: 'Error',
-        description: error.message || `Failed to ${shop?.id ? 'update' : 'create'} shop`,
+        description: error.message || `Failed to ${shop?.id ? 'update' : 'create'} training`,
         variant: 'destructive',
       });
     },
@@ -185,10 +185,10 @@ export default function ShopForm({ shop, onSuccess }: ShopFormProps) {
           </Button>
           
           <h1 className="text-3xl font-bold text-gray-900">
-            {shop?.id ? 'Edit Shop' : 'Add New Shop'}
+            {shop?.id ? 'Edit Training' : 'Add New Training'}
           </h1>
           <p className="text-gray-600">
-            {shop?.id ? 'Update shop information' : 'Enter shop details to add to the directory'}
+            {shop?.id ? 'Update training information' : 'Enter training details to add to the directory'}
           </p>
         </div>
 
@@ -196,15 +196,15 @@ export default function ShopForm({ shop, onSuccess }: ShopFormProps) {
           <Card>
             <CardHeader>
               <CardTitle>Basic Information</CardTitle>
-              <CardDescription>Enter the basic shop details</CardDescription>
+              <CardDescription>Enter the basic training details</CardDescription>
             </CardHeader>
             <CardContent className="space-y-4">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div className="space-y-2">
-                  <Label htmlFor="name">Shop Name *</Label>
+                  <Label htmlFor="name">Training Name *</Label>
                   <Input
                     id="name"
-                    placeholder="Enter shop name"
+                    placeholder="Enter training name"
                     {...form.register('name')}
                     data-testid="input-name"
                   />
@@ -261,7 +261,7 @@ export default function ShopForm({ shop, onSuccess }: ShopFormProps) {
                 <Label htmlFor="description">Description *</Label>
                 <Textarea
                   id="description"
-                  placeholder="Describe the shop and its services"
+                  placeholder="Describe the training and its services"
                   className="min-h-[100px]"
                   {...form.register('description')}
                   data-testid="input-description"
@@ -278,7 +278,7 @@ export default function ShopForm({ shop, onSuccess }: ShopFormProps) {
           <Card>
             <CardHeader>
               <CardTitle>Location</CardTitle>
-              <CardDescription>Shop address and location details</CardDescription>
+              <CardDescription>Training address and location details</CardDescription>
             </CardHeader>
             <CardContent className="space-y-4">
               <div className="space-y-2">
@@ -385,7 +385,7 @@ export default function ShopForm({ shop, onSuccess }: ShopFormProps) {
             <CardContent className="space-y-6">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div className="space-y-3">
-                  <Label>Shop Logo</Label>
+                  <Label>Training Logo</Label>
                   <div className="border-2 border-dashed border-gray-300 rounded-lg p-4 text-center">
                     {logoFile ? (
                       <div className="space-y-2">
@@ -504,7 +504,7 @@ export default function ShopForm({ shop, onSuccess }: ShopFormProps) {
                   htmlFor="isVerified"
                   className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
                 >
-                  Mark as verified shop
+                  Mark as verified training
                 </Label>
               </div>
             </CardContent>
@@ -527,7 +527,7 @@ export default function ShopForm({ shop, onSuccess }: ShopFormProps) {
             >
               {saveMutation.isPending 
                 ? 'Saving...' 
-                : shop?.id ? 'Update Shop' : 'Create Shop'
+                : shop?.id ? 'Update Training' : 'Create Training'
               }
             </Button>
           </div>
