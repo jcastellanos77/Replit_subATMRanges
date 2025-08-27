@@ -195,6 +195,13 @@ async function signObjectURL({
   method: "GET" | "PUT" | "DELETE" | "HEAD";
   ttlSec: number;
 }): Promise<string> {
+  // Get access token first
+  const credentialResponse = await fetch(`${REPLIT_SIDECAR_ENDPOINT}/credential`);
+  if (!credentialResponse.ok) {
+    throw new Error(`Failed to get credentials: ${credentialResponse.status}`);
+  }
+  const { access_token } = await credentialResponse.json();
+
   const request = {
     bucket_name: bucketName,
     object_name: objectName,
@@ -208,12 +215,15 @@ async function signObjectURL({
       method: "POST",
       headers: {
         "Content-Type": "application/json",
+        "Authorization": `Bearer ${access_token}`,
       },
       body: JSON.stringify(request),
     }
   );
   
   if (!response.ok) {
+    const errorText = await response.text();
+    console.error(`Object storage sign URL error: ${response.status} - ${errorText}`);
     throw new Error(
       `Failed to sign object URL, errorcode: ${response.status}`
     );
