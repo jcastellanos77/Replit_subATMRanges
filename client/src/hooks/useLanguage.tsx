@@ -20,7 +20,7 @@ const translations = {
 
     // Hero Section
     'hero.title': 'ATM',
-    'hero.subtitle': 'Tiendas',
+    'hero.subtitle': 'Entrenamiento',
     'hero.description': 'Directorio de tiendas especializadas certificadas por ATM',
 
     // Search and Filters
@@ -76,11 +76,11 @@ const translations = {
 
     // Hero Section
     'hero.title': 'ATM',
-    'hero.subtitle': 'Stores',
-    'hero.description': 'Directory of specialized stores certified by ATM',
+    'hero.subtitle': 'Training',
+    'hero.description': 'Directory of ATM certified specialized stores',
 
     // Search and Filters
-    'search.placeholder': 'Search shops...',
+    'search.placeholder': 'Search stores...',
     'filter.category.all': 'All categories',
     'filter.city.all': 'All cities',
     'filter.state.all': 'All states',
@@ -90,17 +90,17 @@ const translations = {
     'filter.state.label': 'State',
 
     // No Results
-    'no-results.title': 'No shops found',
+    'no-results.title': 'No stores found',
     'no-results.description': 'Try adjusting your search filters',
 
     // Footer
-    'footer.organization': 'Mexican Shooters Alliance',
+    'footer.organization': 'Alliance of Shooters in Mexico',
     'footer.description': 'Promoting safe, responsible and legal firearms training for sport, personal defense and legitimate purposes within the Mexican legal framework.',
     'footer.contact.title': 'Contact',
     'footer.copyright': '© 2024 ATM Mexico. All rights reserved.',
 
     // Language Selector
-    'language.spanish': 'Español',
+    'language.spanish': 'Spanish',
     'language.english': 'English',
 
     // Sidebar Menu Items
