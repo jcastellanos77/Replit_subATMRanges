@@ -95,12 +95,20 @@ export const setupAuthRoutes = (app: any) => {
     }
   });
 
-  // Create admin user route (for initial setup)
+  // Create admin user route (ONLY for initial setup when no admins exist)
   app.post('/api/auth/create-admin', async (req: Request, res: Response) => {
     try {
+      // SECURITY CHECK: Only allow admin creation if no admin users exist
+      const existingUsers = await storage.getAllUsers();
+      if (existingUsers.length > 0) {
+        return res.status(403).json({ 
+          message: 'Admin creation disabled. Admin users already exist. Use the authenticated admin panel to create additional users.' 
+        });
+      }
+
       const userData = insertUserSchema.parse(req.body);
       
-      // Check if user already exists
+      // Check if user already exists (redundant but kept for safety)
       const existingUser = await storage.getUserByUsername(userData.username);
       if (existingUser) {
         return res.status(409).json({ message: 'Username already exists' });
@@ -118,7 +126,7 @@ export const setupAuthRoutes = (app: any) => {
       // Return user info (without password)
       const { password: _, ...userWithoutPassword } = newUser;
       res.status(201).json({ 
-        message: 'Admin user created successfully', 
+        message: 'Initial admin user created successfully', 
         user: userWithoutPassword 
       });
     } catch (error) {
