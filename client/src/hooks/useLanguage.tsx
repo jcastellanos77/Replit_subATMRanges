@@ -20,11 +20,11 @@ const translations = {
 
     // Hero Section
     'hero.title': 'ATM',
-    'hero.subtitle': 'Entrenamiento',
-    'hero.description': 'Directorio de entrenamiento especializado certificado por ATM',
+    'hero.subtitle': 'Armeros',
+    'hero.description': 'Directorio de armeros especializados certificados por ATM',
 
     // Search and Filters
-    'search.placeholder': 'Buscar entrenamiento...',
+    'search.placeholder': 'Buscar armeros...',
     'filter.category.all': 'Todas las categorías',
     'filter.city.all': 'Todas las ciudades',
     'filter.state.all': 'Todos los estados',
@@ -34,12 +34,12 @@ const translations = {
     'filter.state.label': 'Estado',
 
     // No Results
-    'no-results.title': 'No se encontró entrenamiento',
+    'no-results.title': 'No se encontraron armeros',
     'no-results.description': 'Intenta ajustar tus filtros de búsqueda',
 
     // Footer
     'footer.organization': 'Alianza de Tiradores en México',
-    'footer.description': 'Promoviendo entrenamiento seguro, responsable y legal con armas de fuego para deporte, defensa personal y propósitos legítimos dentro del marco legal mexicano.',
+    'footer.description': 'Promoviendo servicios de armería seguros, responsables y legales para deporte, defensa personal y propósitos legítimos dentro del marco legal mexicano.',
     'footer.contact.title': 'Contacto',
     'footer.copyright': '© 2024 ATM México. Todos los derechos reservados.',
 
@@ -76,11 +76,11 @@ const translations = {
 
     // Hero Section
     'hero.title': 'ATM',
-    'hero.subtitle': 'Training',
-    'hero.description': 'Directory of ATM certified specialized training programs',
+    'hero.subtitle': 'Gunsmiths',
+    'hero.description': 'Directory of ATM certified specialized gunsmiths',
 
     // Search and Filters
-    'search.placeholder': 'Search training...',
+    'search.placeholder': 'Search gunsmiths...',
     'filter.category.all': 'All categories',
     'filter.city.all': 'All cities',
     'filter.state.all': 'All states',
@@ -90,12 +90,12 @@ const translations = {
     'filter.state.label': 'State',
 
     // No Results
-    'no-results.title': 'No training found',
+    'no-results.title': 'No gunsmiths found',
     'no-results.description': 'Try adjusting your search filters',
 
     // Footer
     'footer.organization': 'Alliance of Shooters in Mexico',
-    'footer.description': 'Promoting safe, responsible and legal firearms training for sport, personal defense and legitimate purposes within the Mexican legal framework.',
+    'footer.description': 'Promoting safe, responsible and legal gunsmithing services for sport, personal defense and legitimate purposes within the Mexican legal framework.',
     'footer.contact.title': 'Contact',
     'footer.copyright': '© 2024 ATM Mexico. All rights reserved.',
 
