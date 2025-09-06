@@ -92,8 +92,8 @@ export default function ShopForm({ shop, onSuccess }: ShopFormProps) {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['/api/shops'] });
       toast({
-        title: shop?.id ? 'Training Updated' : 'Training Created',
-        description: `Training has been successfully ${shop?.id ? 'updated' : 'created'}.`,
+        title: shop?.id ? 'Gunsmith Updated' : 'Gunsmith Created',
+        description: `Gunsmith has been successfully ${shop?.id ? 'updated' : 'created'}.`,
       });
       onSuccess?.();
       setLocation('/admin');
@@ -101,7 +101,7 @@ export default function ShopForm({ shop, onSuccess }: ShopFormProps) {
     onError: (error) => {
       toast({
         title: 'Error',
-        description: error.message || `Failed to ${shop?.id ? 'update' : 'create'} training`,
+        description: error.message || `Failed to ${shop?.id ? 'update' : 'create'} gunsmith`,
         variant: 'destructive',
       });
     },
@@ -185,10 +185,10 @@ export default function ShopForm({ shop, onSuccess }: ShopFormProps) {
           </Button>
           
           <h1 className="text-3xl font-bold text-gray-900">
-            {shop?.id ? 'Edit Training' : 'Add New Training'}
+            {shop?.id ? 'Edit Gunsmith' : 'Add New Gunsmith'}
           </h1>
           <p className="text-gray-600">
-            {shop?.id ? 'Update training information' : 'Enter training details to add to the directory'}
+            {shop?.id ? 'Update gunsmith information' : 'Enter gunsmith details to add to the directory'}
           </p>
         </div>
 
@@ -435,7 +435,7 @@ export default function ShopForm({ shop, onSuccess }: ShopFormProps) {
                 </div>
 
                 <div className="space-y-3">
-                  <Label>Training Map/Photo</Label>
+                  <Label>Gunsmith Map/Photo</Label>
                   <div className="border-2 border-dashed border-gray-300 rounded-lg p-4 text-center">
                     {mapFile ? (
                       <div className="space-y-2">
@@ -527,7 +527,7 @@ export default function ShopForm({ shop, onSuccess }: ShopFormProps) {
             >
               {saveMutation.isPending 
                 ? 'Saving...' 
-                : shop?.id ? 'Update Training' : 'Create Training'
+                : shop?.id ? 'Update Gunsmith' : 'Create Gunsmith'
               }
             </Button>
           </div>

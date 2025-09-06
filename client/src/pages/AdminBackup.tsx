@@ -224,8 +224,8 @@ export default function AdminBackup() {
                 Back to Dashboard
               </Button>
               <div>
-                <h1 className="text-2xl font-bold text-gray-900">Training Data Backup</h1>
-                <p className="text-gray-600">Export your training directory data and images</p>
+                <h1 className="text-2xl font-bold text-gray-900">Gunsmith Data Backup</h1>
+                <p className="text-gray-600">Export your gunsmith directory data and images</p>
               </div>
             </div>
           </div>
@@ -315,7 +315,7 @@ export default function AdminBackup() {
               </div>
               <div className="flex items-center">
                 <CheckCircle className="h-4 w-4 mr-2" />
-                Updates training records with new image URLs
+                Updates gunsmith records with new image URLs
               </div>
               <div className="flex items-center">
                 <RefreshCw className="h-4 w-4 mr-2" />
