@@ -196,15 +196,15 @@ export default function ShopForm({ shop, onSuccess }: ShopFormProps) {
           <Card>
             <CardHeader>
               <CardTitle>Basic Information</CardTitle>
-              <CardDescription>Enter the basic training details</CardDescription>
+              <CardDescription>Enter the basic gunsmith details</CardDescription>
             </CardHeader>
             <CardContent className="space-y-4">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div className="space-y-2">
-                  <Label htmlFor="name">Training Name *</Label>
+                  <Label htmlFor="name">Gunsmith Name *</Label>
                   <Input
                     id="name"
-                    placeholder="Enter training name"
+                    placeholder="Enter gunsmith name"
                     {...form.register('name')}
                     data-testid="input-name"
                   />
@@ -261,7 +261,7 @@ export default function ShopForm({ shop, onSuccess }: ShopFormProps) {
                 <Label htmlFor="description">Description *</Label>
                 <Textarea
                   id="description"
-                  placeholder="Describe the training and its services"
+                  placeholder="Describe the gunsmith and its services"
                   className="min-h-[100px]"
                   {...form.register('description')}
                   data-testid="input-description"
@@ -385,7 +385,7 @@ export default function ShopForm({ shop, onSuccess }: ShopFormProps) {
             <CardContent className="space-y-6">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div className="space-y-3">
-                  <Label>Training Logo</Label>
+                  <Label>Gunsmith Logo</Label>
                   <div className="border-2 border-dashed border-gray-300 rounded-lg p-4 text-center">
                     {logoFile ? (
                       <div className="space-y-2">
@@ -490,7 +490,7 @@ export default function ShopForm({ shop, onSuccess }: ShopFormProps) {
           <Card>
             <CardHeader>
               <CardTitle>Verification</CardTitle>
-              <CardDescription>Training verification status</CardDescription>
+              <CardDescription>Gunsmith verification status</CardDescription>
             </CardHeader>
             <CardContent>
               <div className="flex items-center space-x-2">
@@ -504,7 +504,7 @@ export default function ShopForm({ shop, onSuccess }: ShopFormProps) {
                   htmlFor="isVerified"
                   className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
                 >
-                  Mark as verified training
+                  Mark as verified gunsmith
                 </Label>
               </div>
             </CardContent>
