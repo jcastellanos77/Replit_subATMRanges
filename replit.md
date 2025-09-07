@@ -8,6 +8,29 @@ This is a React-based web application for the Alianza de Tiradores en México (A
 
 Preferred communication style: Simple, everyday language.
 
+## Recent Changes (September 2025)
+
+- **Database Reset**: Cleaned database to start fresh with empty tables
+- **App Storage Integration**: Configured Replit App Storage for image uploads (shop logos and maps)
+- **Object Storage Setup**: Bucket ID `replit-objstore-12b1cfe2-99ed-4707-be1e-8b0f63c44752` configured
+- **Git Repository**: Established at `https://github.com/jcastellanos77/Replit_subATMGunsmith` with complete history
+- **Upload Functionality**: Image upload system fully operational for admin panel
+
+## Project Configuration
+
+### App Storage Setup
+- **Bucket ID**: `replit-objstore-12b1cfe2-99ed-4707-be1e-8b0f63c44752`
+- **Public Search Paths**: `/replit-objstore-12b1cfe2-99ed-4707-be1e-8b0f63c44752/public`
+- **Private Directory**: `/replit-objstore-12b1cfe2-99ed-4707-be1e-8b0f63c44752/.private`
+- **Upload Types**: Logo images and map images for shops
+- **Access**: Admin-only upload functionality through authenticated endpoints
+
+### Git Repository
+- **URL**: https://github.com/jcastellanos77/Replit_subATMGunsmith
+- **Branch**: main
+- **History**: Preserves complete commit history from original forked Training project
+- **Status**: All commits pushed and synchronized
+
 ## System Architecture
 
 ### Frontend Architecture
