@@ -53,7 +53,7 @@ export default function Navigation() {
                   <nav className="p-6">
                     <div className="space-y-4">
                       {menuItems.map((item) => (
-                        item.key === 'menu.training' ? (
+                        item.key === 'menu.training' || item.key === 'menu.gunsmiths' ? (
                           <div
                             key={item.key}
                             className="block text-gray-400 px-4 py-3 rounded-lg cursor-default"
