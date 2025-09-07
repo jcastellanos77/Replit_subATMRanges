@@ -278,7 +278,7 @@ export default function ShopForm({ shop, onSuccess }: ShopFormProps) {
           <Card>
             <CardHeader>
               <CardTitle>Location</CardTitle>
-              <CardDescription>Training address and location details</CardDescription>
+              <CardDescription>Gunsmith address and location details</CardDescription>
             </CardHeader>
             <CardContent className="space-y-4">
               <div className="space-y-2">
