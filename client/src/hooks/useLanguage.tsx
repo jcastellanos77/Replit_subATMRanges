@@ -20,11 +20,11 @@ const translations = {
 
     // Hero Section
     'hero.title': 'ATM',
-    'hero.subtitle': 'Armeros',
-    'hero.description': 'Directorio de armeros especializados certificados por ATM',
+    'hero.subtitle': 'Campos de Tiro',
+    'hero.description': 'Directorio de campos de tiro especializados certificados por ATM',
 
     // Search and Filters
-    'search.placeholder': 'Buscar armeros...',
+    'search.placeholder': 'Buscar campos de tiro...',
     'filter.category.all': 'Todas las categorías',
     'filter.city.all': 'Todas las ciudades',
     'filter.state.all': 'Todos los estados',
@@ -34,12 +34,12 @@ const translations = {
     'filter.state.label': 'Estado',
 
     // No Results
-    'no-results.title': 'No se encontraron armeros',
+    'no-results.title': 'No se encontraron campos de tiro',
     'no-results.description': 'Intenta ajustar tus filtros de búsqueda',
 
     // Footer
     'footer.organization': 'Alianza de Tiradores en México',
-    'footer.description': 'Promoviendo servicios de armería seguros, responsables y legales para deporte, defensa personal y propósitos legítimos dentro del marco legal mexicano.',
+    'footer.description': 'Promoviendo servicios de campos de tiro seguros, responsables y legales para deporte, defensa personal y propósitos legítimos dentro del marco legal mexicano.',
     'footer.contact.title': 'Contacto',
     'footer.copyright': '© 2024 ATM México. Todos los derechos reservados.',
 
@@ -76,11 +76,11 @@ const translations = {
 
     // Hero Section
     'hero.title': 'ATM',
-    'hero.subtitle': 'Gunsmiths',
-    'hero.description': 'Directory of ATM certified specialized gunsmiths',
+    'hero.subtitle': 'Shooting Ranges',
+    'hero.description': 'Directory of ATM certified specialized shooting ranges',
 
     // Search and Filters
-    'search.placeholder': 'Search gunsmiths...',
+    'search.placeholder': 'Search shooting ranges...',
     'filter.category.all': 'All categories',
     'filter.city.all': 'All cities',
     'filter.state.all': 'All states',
@@ -90,12 +90,12 @@ const translations = {
     'filter.state.label': 'State',
 
     // No Results
-    'no-results.title': 'No gunsmiths found',
+    'no-results.title': 'No shooting ranges found',
     'no-results.description': 'Try adjusting your search filters',
 
     // Footer
     'footer.organization': 'Alliance of Shooters in Mexico',
-    'footer.description': 'Promoting safe, responsible and legal gunsmithing services for sport, personal defense and legitimate purposes within the Mexican legal framework.',
+    'footer.description': 'Promoting safe, responsible and legal shooting range services for sport, personal defense and legitimate purposes within the Mexican legal framework.',
     'footer.contact.title': 'Contact',
     'footer.copyright': '© 2024 ATM Mexico. All rights reserved.',
 
