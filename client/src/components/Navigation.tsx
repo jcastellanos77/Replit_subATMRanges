@@ -81,6 +81,9 @@ export default function Navigation() {
                               } else if (item.key === 'menu.training') {
                                 e.preventDefault();
                                 window.location.href = 'https://training.alianzatiradoresmx.org';
+                              } else if (item.key === 'menu.gunsmiths') {
+                                e.preventDefault();
+                                window.location.href = 'https://gunsmith.alianzatiradoresmx.org/';
                               }
                             }}
                           >
