@@ -63,14 +63,14 @@ export default function AdminDashboard() {
       await queryClient.refetchQueries({ queryKey: ['/api/shops'] });
       
       toast({
-        title: '✅ Gunsmith Deleted Successfully',
-        description: 'The gunsmith has been removed and the list has been updated.',
+        title: '✅ Shooting Range Deleted Successfully',
+        description: 'The shooting range has been removed and the list has been updated.',
       });
     },
     onError: (error) => {
       toast({
         title: 'Deletion Error',
-        description: error.message || 'Failed to delete gunsmith. Please try again.',
+        description: error.message || 'Failed to delete shooting range. Please try again.',
         variant: 'destructive',
       });
     },
@@ -137,7 +137,7 @@ export default function AdminDashboard() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
           <Card>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">Total Gunsmiths</CardTitle>
+              <CardTitle className="text-sm font-medium">Total Shooting Ranges</CardTitle>
               <Store className="h-4 w-4 text-muted-foreground" />
             </CardHeader>
             <CardContent>
@@ -147,7 +147,7 @@ export default function AdminDashboard() {
           
           <Card>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">Verified Gunsmiths</CardTitle>
+              <CardTitle className="text-sm font-medium">Verified Shooting Ranges</CardTitle>
               <Shield className="h-4 w-4 text-muted-foreground" />
             </CardHeader>
             <CardContent>
@@ -172,7 +172,7 @@ export default function AdminDashboard() {
         </div>
 
         <div className="flex justify-between items-center mb-6">
-          <h2 className="text-2xl font-bold text-gray-900">Gunsmith Management</h2>
+          <h2 className="text-2xl font-bold text-gray-900">Shooting Range Management</h2>
           <div className="flex space-x-3">
             <Button
               variant="outline"
@@ -195,7 +195,7 @@ export default function AdminDashboard() {
               data-testid="button-add-shop"
             >
               <Plus className="h-4 w-4 mr-2" />
-              Add New Gunsmith
+              Add New Shooting Range
             </Button>
           </div>
         </div>
@@ -286,11 +286,11 @@ export default function AdminDashboard() {
           <Card className="text-center py-12">
             <CardContent>
               <Store className="h-12 w-12 text-gray-400 mx-auto mb-4" />
-              <h3 className="text-lg font-semibold text-gray-900 mb-2">No gunsmiths yet</h3>
-              <p className="text-gray-500 mb-4">Get started by adding your first gunsmith to the directory.</p>
+              <h3 className="text-lg font-semibold text-gray-900 mb-2">No shooting ranges yet</h3>
+              <p className="text-gray-500 mb-4">Get started by adding your first shooting range to the directory.</p>
               <Button onClick={() => setLocation('/admin/shops/new')}>
                 <Plus className="h-4 w-4 mr-2" />
-                Add First Gunsmith
+                Add First Shooting Range
               </Button>
             </CardContent>
           </Card>

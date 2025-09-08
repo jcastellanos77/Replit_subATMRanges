@@ -157,7 +157,7 @@ export default function AdminUsers() {
               </Button>
               <div>
                 <h1 className="text-2xl font-bold text-gray-900">Admin User Management</h1>
-                <p className="text-gray-600">Manage administrator access to the gunsmith directory</p>
+                <p className="text-gray-600">Manage administrator access to the shooting range directory</p>
               </div>
             </div>
             <div className="flex items-center gap-3">
@@ -356,7 +356,7 @@ export default function AdminUsers() {
                   
                   <div className="flex items-center text-gray-500">
                     <Shield className="h-4 w-4 mr-2" />
-                    Can manage gunsmiths and users
+                    Can manage shooting ranges and users
                   </div>
                 </div>
                 

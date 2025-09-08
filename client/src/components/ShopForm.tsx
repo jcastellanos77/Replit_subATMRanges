@@ -92,8 +92,8 @@ export default function ShopForm({ shop, onSuccess }: ShopFormProps) {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['/api/shops'] });
       toast({
-        title: shop?.id ? 'Gunsmith Updated' : 'Gunsmith Created',
-        description: `Gunsmith has been successfully ${shop?.id ? 'updated' : 'created'}.`,
+        title: shop?.id ? 'Shooting Range Updated' : 'Shooting Range Created',
+        description: `Shooting range has been successfully ${shop?.id ? 'updated' : 'created'}.`,
       });
       onSuccess?.();
       setLocation('/admin');
@@ -101,17 +101,17 @@ export default function ShopForm({ shop, onSuccess }: ShopFormProps) {
     onError: (error) => {
       toast({
         title: 'Error',
-        description: error.message || `Failed to ${shop?.id ? 'update' : 'create'} gunsmith`,
+        description: error.message || `Failed to ${shop?.id ? 'update' : 'create'} shooting range`,
         variant: 'destructive',
       });
     },
   });
 
   const handleCategoryChange = (category: string, checked: boolean) => {
-    const updatedCategories = checked 
+    const updatedCategories = checked
       ? [...selectedCategories, category]
       : selectedCategories.filter(c => c !== category);
-    
+
     setSelectedCategories(updatedCategories);
     form.setValue('categories', updatedCategories);
   };
@@ -119,11 +119,11 @@ export default function ShopForm({ shop, onSuccess }: ShopFormProps) {
   const handleFileUpload = async (file: File, type: 'logo' | 'map') => {
     try {
       setIsUploading(true);
-      
+
       // Get upload URL
       const uploadResponse = await apiRequest('POST', '/api/admin/upload', { type });
       const { uploadURL } = await uploadResponse.json();
-      
+
       // Upload file to storage
       const fileResponse = await fetch(uploadURL, {
         method: 'PUT',
@@ -132,15 +132,15 @@ export default function ShopForm({ shop, onSuccess }: ShopFormProps) {
           'Content-Type': file.type,
         },
       });
-      
+
       if (!fileResponse.ok) {
         throw new Error('Failed to upload file');
       }
-      
+
       // Get the object path from the upload URL
       const objectPath = uploadURL.split('?')[0].replace('https://storage.googleapis.com', '');
       const imageUrl = `/objects${objectPath}`;
-      
+
       // Update form
       if (type === 'logo') {
         form.setValue('logo', imageUrl);
@@ -149,7 +149,7 @@ export default function ShopForm({ shop, onSuccess }: ShopFormProps) {
         form.setValue('mapImageUrl', imageUrl);
         setMapFile(file);
       }
-      
+
       toast({
         title: 'Upload Successful',
         description: `${type === 'logo' ? 'Logo' : 'Map'} uploaded successfully.`,
@@ -183,12 +183,12 @@ export default function ShopForm({ shop, onSuccess }: ShopFormProps) {
             <ArrowLeft className="h-4 w-4 mr-2" />
             Back to Dashboard
           </Button>
-          
+
           <h1 className="text-3xl font-bold text-gray-900">
-            {shop?.id ? 'Edit Gunsmith' : 'Add New Gunsmith'}
+            {shop?.id ? 'Edit Shooting Range' : 'Add New Shooting Range'}
           </h1>
           <p className="text-gray-600">
-            {shop?.id ? 'Update gunsmith information' : 'Enter gunsmith details to add to the directory'}
+            {shop?.id ? 'Update shooting range information' : 'Enter shooting range details to add to the directory'}
           </p>
         </div>
 
@@ -196,15 +196,15 @@ export default function ShopForm({ shop, onSuccess }: ShopFormProps) {
           <Card>
             <CardHeader>
               <CardTitle>Basic Information</CardTitle>
-              <CardDescription>Enter the basic gunsmith details</CardDescription>
+              <CardDescription>Enter the basic shooting range details</CardDescription>
             </CardHeader>
             <CardContent className="space-y-4">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div className="space-y-2">
-                  <Label htmlFor="name">Gunsmith Name *</Label>
+                  <Label htmlFor="name">Shooting Range Name *</Label>
                   <Input
                     id="name"
-                    placeholder="Enter gunsmith name"
+                    placeholder="Enter shooting range name"
                     {...form.register('name')}
                     data-testid="input-name"
                   />
@@ -261,7 +261,7 @@ export default function ShopForm({ shop, onSuccess }: ShopFormProps) {
                 <Label htmlFor="description">Description *</Label>
                 <Textarea
                   id="description"
-                  placeholder="Describe the gunsmith and its services"
+                  placeholder="Describe the shooting range and its services"
                   className="min-h-[100px]"
                   {...form.register('description')}
                   data-testid="input-description"
@@ -278,7 +278,7 @@ export default function ShopForm({ shop, onSuccess }: ShopFormProps) {
           <Card>
             <CardHeader>
               <CardTitle>Location</CardTitle>
-              <CardDescription>Gunsmith address and location details</CardDescription>
+              <CardDescription>Shooting range address and location details</CardDescription>
             </CardHeader>
             <CardContent className="space-y-4">
               <div className="space-y-2">
@@ -385,7 +385,7 @@ export default function ShopForm({ shop, onSuccess }: ShopFormProps) {
             <CardContent className="space-y-6">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div className="space-y-3">
-                  <Label>Gunsmith Logo</Label>
+                  <Label>Shooting Range Logo</Label>
                   <div className="border-2 border-dashed border-gray-300 rounded-lg p-4 text-center">
                     {logoFile ? (
                       <div className="space-y-2">
@@ -435,7 +435,7 @@ export default function ShopForm({ shop, onSuccess }: ShopFormProps) {
                 </div>
 
                 <div className="space-y-3">
-                  <Label>Gunsmith Map/Photo</Label>
+                  <Label>Shooting Range Map/Photo</Label>
                   <div className="border-2 border-dashed border-gray-300 rounded-lg p-4 text-center">
                     {mapFile ? (
                       <div className="space-y-2">
@@ -490,7 +490,7 @@ export default function ShopForm({ shop, onSuccess }: ShopFormProps) {
           <Card>
             <CardHeader>
               <CardTitle>Verification</CardTitle>
-              <CardDescription>Gunsmith verification status</CardDescription>
+              <CardDescription>Shooting range verification status</CardDescription>
             </CardHeader>
             <CardContent>
               <div className="flex items-center space-x-2">
@@ -504,7 +504,7 @@ export default function ShopForm({ shop, onSuccess }: ShopFormProps) {
                   htmlFor="isVerified"
                   className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
                 >
-                  Mark as verified gunsmith
+                  Mark as verified shooting range
                 </Label>
               </div>
             </CardContent>
@@ -519,15 +519,15 @@ export default function ShopForm({ shop, onSuccess }: ShopFormProps) {
             >
               Cancel
             </Button>
-            
+
             <Button
               type="submit"
               disabled={saveMutation.isPending || selectedCategories.length === 0}
               data-testid="button-save"
             >
-              {saveMutation.isPending 
-                ? 'Saving...' 
-                : shop?.id ? 'Update Gunsmith' : 'Create Gunsmith'
+              {saveMutation.isPending
+                ? 'Saving...'
+                : shop?.id ? 'Update Shooting Range' : 'Create Shooting Range'
               }
             </Button>
           </div>
