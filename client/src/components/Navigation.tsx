@@ -84,6 +84,9 @@ export default function Navigation() {
                               } else if (item.key === 'menu.gunsmiths') {
                                 e.preventDefault();
                                 window.location.href = 'https://gunsmith.alianzatiradoresmx.org/';
+                              } else if (item.key === 'menu.blog') {
+                                e.preventDefault();
+                                window.location.href = 'https://blog.alianzatiradoresmx.org';
                               }
                             }}
                           >
