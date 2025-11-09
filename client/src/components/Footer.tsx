@@ -1,4 +1,4 @@
-import { useLanguage } from '@/hooks/useLanguage';
+import { useLanguage } from "@/hooks/useLanguage";
 
 export default function Footer() {
   const { t } = useLanguage();
@@ -12,31 +12,39 @@ export default function Footer() {
               <div className="bg-atm-green-2 text-white px-3 py-1 rounded-full text-sm font-semibold mr-3">
                 ATM
               </div>
-              <span className="text-lg font-semibold">{t('footer.organization')}</span>
+              <span className="text-lg font-semibold">
+                {t("footer.organization")}
+              </span>
             </div>
             <p className="text-gray-300 mb-4 max-w-md">
-              {t('footer.description')}
+              {t("footer.description")}
             </p>
-            <div className="text-sm text-gray-400">
-              {t('footer.copyright')}
-            </div>
+            <div className="text-sm text-gray-400">{t("footer.copyright")}</div>
           </div>
-          
+
           {/* Contact Info */}
           <div>
-            <h4 className="text-lg font-semibold mb-4">{t('footer.contact.title')}</h4>
+            <h4 className="text-lg font-semibold mb-4">
+              {t("footer.contact.title")}
+            </h4>
             <div className="space-y-2 text-gray-300">
               <div className="flex items-center">
                 <i className="fas fa-envelope mr-2 text-atm-green-3"></i>
-                <span className="text-sm" data-testid="text-contact-email">contacto@alianzatiradoresmx.org</span>
+                <span className="text-sm" data-testid="text-contact-email">
+                  contacto@alianzatiradoresmx.org
+                </span>
               </div>
               <div className="flex items-center">
                 <i className="fas fa-phone mr-2 text-atm-green-3"></i>
-                <span className="text-sm" data-testid="text-contact-phone">+52 (55) 1234-5678</span>
+                <span className="text-sm" data-testid="text-contact-phone">
+                  +52 (33) 1148-4906
+                </span>
               </div>
               <div className="flex items-center">
                 <i className="fas fa-map-marker-alt mr-2 text-atm-green-3"></i>
-                <span className="text-sm" data-testid="text-contact-address">Ciudad de México, México</span>
+                <span className="text-sm" data-testid="text-contact-address">
+                  Calle Las Conchas #920 CP:44460 Guadalajara, Jalisco
+                </span>
               </div>
             </div>
           </div>
