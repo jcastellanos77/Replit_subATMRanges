@@ -117,17 +117,6 @@ export default function Navigation() {
             {t('nav.contact')}
           </a>
           <LanguageSelector />
-          <span
-            className="text-sm text-gray-300"
-            data-testid="text-login"
-          >
-            {t('nav.login')}
-          </span>
-          <User
-            className="text-2xl text-gray-300 hover:text-atm-green-1 cursor-pointer transition-colors duration-200"
-            data-testid="icon-user"
-            size={24}
-          />
         </div>
       </div>
     </nav>
